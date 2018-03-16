@@ -3,7 +3,7 @@ from PyQt4 import QtCore, QtGui
 import sys
 from nclib import Netcat, NetcatError
 import pyDH
-from Cryptography import cryptography
+import crypto
 from PyUIs import main_window, server_dialog, username_dialog
 
 try:
@@ -112,7 +112,7 @@ if __name__ == '__main__':
 	dh_pubkey = dh.gen_public_key()
 	buf = long(nc.recv_until('\r\n').replace('\r\n', '')[5:-5])
 	dh_sharedkey = dh.gen_shared_key(buf)
-	aes = cryptography.AESCipher(dh_sharedkey)
+	aes = crypto.AESCipher(dh_sharedkey)
 	nc.send('/DHPK' + str(dh_pubkey) + 'DHPK/\r\n')
 	print('Completed DH handshake.')
 

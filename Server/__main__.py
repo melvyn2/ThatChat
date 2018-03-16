@@ -1,9 +1,8 @@
-#!/usr/bin/env python
+#!/usr/bin/env python -m
 import time
 import sys
 import pyDH
-sys.path.insert(0, "/User/melvyn/PyChat.py/Cryptography")
-from Cryptography import cryptography
+import crypto
 
 # from twisted.internet.protocol import Protocol
 from twisted.internet.protocol import Factory
@@ -53,7 +52,7 @@ class ChatHandler(LineReceiver):
         elif self.state == 3:
             if line[:5] == '/DHPK' and line[-5:] == 'DHPK/':
                 self.dh_sharedkey = self.dh.gen_shared_key(long(line[5:-5]))
-                self.aes = cryptography.AESCipher(self.dh_sharedkey)
+                self.aes = crypto.AESCipher(self.dh_sharedkey)
                 self.state = 1
         elif self.state == 1:
             if line[:5] == '/UNST' and line[-5:] == 'UNST/':

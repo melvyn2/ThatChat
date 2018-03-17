@@ -4,9 +4,7 @@ import sys
 import pyDH
 from ..Cryptography import crypto
 
-# from twisted.internet.protocol import Protocol
 from twisted.internet.protocol import Factory
-# from twisted.internet.endpoints import TCP4ServerEndpoint
 from twisted.internet import reactor
 from twisted.protocols.basic import LineReceiver
 import twisted.internet.error

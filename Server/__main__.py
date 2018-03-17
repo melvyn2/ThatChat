@@ -2,7 +2,7 @@
 import time
 import sys
 import pyDH
-import crypto
+from ..Cryptography import crypto
 
 # from twisted.internet.protocol import Protocol
 from twisted.internet.protocol import Factory
@@ -94,7 +94,7 @@ class ChatFactory(Factory):
 
 
 if len(sys.argv) < 2 or len(sys.argv) > 3:
-    print("Usage: [sudo] %s <server port> [logfile]\r\nExample: sudo %s 7000" % (sys.argv[0], sys.argv[0]))
+    print('Usage: [sudo] python -m PyChat.Server <server port> [logfile]\r\nExample: sudo python -m PyChat.Server 7000\r\nYou must be in the directory one level above the PyChat folder for it to work.')
     sys.exit(0)
 try:
     reactor.listenTCP(int(sys.argv[1]), ChatFactory(sys.argv[3] if len(sys.argv) == 3 else None))

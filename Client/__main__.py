@@ -3,7 +3,7 @@ from PyQt4 import QtCore, QtGui
 import sys
 from nclib import Netcat, NetcatError
 import pyDH
-import crypto
+from ..Cryptography import crypto
 from PyUIs import main_window, server_dialog, username_dialog
 
 try:

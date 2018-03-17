@@ -1,1 +1,1 @@
-from .. import Cryptography
+from ..Cryptography import crypto

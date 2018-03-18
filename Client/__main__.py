@@ -74,18 +74,20 @@ def execAndClose(main, thread):
 if __name__ == '__main__':
 
 	app = QtGui.QApplication(sys.argv)
-	Dialog1 = QtGui.QDialog()
-	Dialog2 = QtGui.QDialog()
+	serverDialog = QtGui.QDialog()
+	usernameDialog = QtGui.QDialog()
 	serverUi = server_dialog.Ui_Dialog()
-	serverUi.setupUi(Dialog1)
+	serverUi.setupUi(serverDialog)
 	QtCore.QObject.connect(serverUi.buttonBox, QtCore.SIGNAL(_fromUtf8('rejected()')), sys.exit)
+	serverDialog.setFixedSize(serverDialog.size())
 	usernameUi = username_dialog.Ui_Dialog()
-	usernameUi.setupUi(Dialog2)
+	usernameUi.setupUi(usernameDialog)
 	QtCore.QObject.connect(usernameUi.buttonBox, QtCore.SIGNAL(_fromUtf8('rejected()')), sys.exit)
+	usernameDialog.setFixedSize(usernameDialog.size())
 	ChatClientWindow = QtGui.QMainWindow()
 	mainUi = main_window.Ui_MainWindow()
 	while True:
-		Dialog1.exec_()
+		serverDialog.exec_()
 		try:
 			PORT = int(serverUi.lineEdit_2.text())
 		except ValueError:
@@ -117,7 +119,7 @@ if __name__ == '__main__':
 	print('Completed DH handshake.')
 
 	while True:
-		Dialog2.exec_()
+		usernameDialog.exec_()
 		nc.send('/UNST' + aes.encrypt(str(usernameUi.lineEdit.text())) + 'UNST/\r\n')
 		buf = nc.recv_until('\r\n').replace('\r\n', '')
 		if buf == '/UNOK':

@@ -96,7 +96,7 @@ if __name__ == '__main__':
 			continue
 		HOST = serverUi.lineEdit.text()
 		try:
-			nc = Netcat((HOST, PORT), verbose=True)
+			nc = Netcat((HOST, PORT), verbose=False)
 		except:
 			serverUi.label_3.setText('Could not Connect!')
 			continue
@@ -136,6 +136,6 @@ if __name__ == '__main__':
 	ChatClientWindow.show()
 	running = True
 	recieveThread = RecvThread(nc, aes)
-	recieveThread.toappend.connect(lambda txt: mainUi.textEdit_2.append(txt))
+	recieveThread.toappend.connect(lambda txt: mainUi.textEdit.append(txt))
 	recieveThread.start()
 	sys.exit(execAndClose(app, recieveThread))

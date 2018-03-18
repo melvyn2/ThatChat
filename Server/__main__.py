@@ -71,7 +71,7 @@ class ChatHandler(LineReceiver):
                 self.state = 2
         elif self.state == 2:
             if line[:5] == '/MESG' and line[-5:] == 'MESG/':
-                dmsg = self.aes.decrypt(line[5:-5]).decode('utf8')
+                dmsg = self.aes.decrypt(line[5:-5])
                 if (not dmsg.isspace()) and dmsg:
                     if self.tdelay > time.localtime(time.time())[4] * 100 + time.localtime(time.time())[5] - 0.75:
                         self.sendCmd('/NSPM')

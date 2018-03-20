@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from PyQt4 import QtCore, QtGui
 import sys
 from nclib import Netcat, NetcatError
@@ -14,12 +15,24 @@ except AttributeError:
 
 
 def sendMesg(netcat, linedit, aescipher, header='MESG'):
-	netcat.send('/' + header + aescipher.encrypt(str(linedit.text())) + header + '/\r\n')
+	netcat.send('/' + header + aescipher.encrypt(str(linedit.text().toUtf8())) + header + '/\r\n')
 	linedit.clear()
 
+class Window(QtGui.QMainWindow):
+	resized = QtCore.pyqtSignal()
+
+	def __init__(self, parent=None):
+		super(Window, self).__init__(parent=parent)
+
+	def resizeEvent(self, event):
+		self.resized.emit()
+		return super(Window, self).resizeEvent(event)
+
 def resize(ui, window):
-	mainUi.textEdit.size().resize(ChatClientWindow.width() - 41, ChatClientWindow.height() - 183)
-	mainUi.lineEdit.size().resize(ChatClientWindow.width() - 66, 91)
+	ui.textEdit.resize(window.width() - 41, window.height() - (ui.lineEdit.height() + 67))
+	ui.lineEdit.move(ui.lineEdit.x(), ui.textEdit.y() + 7 + ui.textEdit.height())
+	ui.lineEdit.resize(window.width() - (ui.sendButton.width() + 40), 91)
+	ui.sendButton.move((ui.lineEdit.width() + ui.lineEdit.x() + 5), ui.textEdit.y() + 3 + ui.textEdit.height())
 
 class RecvThread(QtCore.QThread):
 
@@ -61,7 +74,7 @@ def recvMesg(netcat, output, aescipher):
 			try:
 				plain = aescipher.decrypt(data[5:-5])
 				print plain
-				toappend.emit(plain)
+				toappend.emit(_fromUtf8(plain))
 			except Exception as e:
 				print(e)
 
@@ -84,7 +97,7 @@ if __name__ == '__main__':
 	usernameUi.setupUi(usernameDialog)
 	QtCore.QObject.connect(usernameUi.buttonBox, QtCore.SIGNAL(_fromUtf8('rejected()')), sys.exit)
 	usernameDialog.setFixedSize(usernameDialog.size())
-	ChatClientWindow = QtGui.QMainWindow()
+	ChatClientWindow = Window()
 	mainUi = main_window.Ui_MainWindow()
 	while True:
 		serverDialog.exec_()
@@ -135,6 +148,7 @@ if __name__ == '__main__':
 	mainUi.setupUi(ChatClientWindow)
 	mainUi.sendButton.clicked.connect(lambda: sendMesg(nc, mainUi.lineEdit, aes))
 	mainUi.lineEdit.returnPressed.connect(lambda: sendMesg(nc, mainUi.lineEdit, aes))
+	ChatClientWindow.resized.connect(lambda: resize(mainUi, ChatClientWindow))
 	ChatClientWindow.show()
 	running = True
 	recieveThread = RecvThread(nc, aes)

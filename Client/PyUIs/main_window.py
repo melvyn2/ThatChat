@@ -60,4 +60,3 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "ChatClientWindow", None))
         self.sendButton.setText(_translate("MainWindow", "Send!", None))
         self.menuPyChat_Client.setTitle(_translate("MainWindow", "PyChat Client", None))
-

@@ -1,4 +1,5 @@
-#!/usr/bin/env python -m
+# See LISENCE file for legal information
+
 import time
 import sys
 import pyDH

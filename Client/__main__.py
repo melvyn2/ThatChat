@@ -1,6 +1,6 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-from PyQt4 import QtCore, QtGui
+# See LISENCE file for legal information
+
+from PyQt5 import QtCore, QtWidgets
 import sys
 from nclib import Netcat, NetcatError
 import pyDH
@@ -15,10 +15,10 @@ except AttributeError:
 
 
 def sendMesg(netcat, linedit, aescipher, header='MESG'):
-	netcat.send('/' + header + aescipher.encrypt(str(linedit.text().toUtf8())) + header + '/\r\n')
+	netcat.send('/' + header + aescipher.encrypt(str(linedit.text().encode('utf-8'))) + header + '/\r\n')
 	linedit.clear()
 
-class Window(QtGui.QMainWindow):
+class Window(QtWidgets.QMainWindow):
 	resized = QtCore.pyqtSignal()
 
 	def __init__(self, parent=None):
@@ -54,29 +54,12 @@ class RecvThread(QtCore.QThread):
 				try:
 					plain = self.aescipher.decrypt(data[5:-5])
 					print plain
-					self.toappend.emit(plain)
+					self.toappend.emit(plain.decode('utf-8'))
 				except Exception as e:
 					print(e)
 
 	def stop(self):
 		self.terminate()
-
-def recvMesg(netcat, output, aescipher):
-	toappend = QtCore.pyqtSignal(str)
-	while True:
-		try:
-			data = netcat.recv_until('\r\n').replace('\r\n', '')
-		except NetcatError:
-			print('Lost connection to server!')
-			sys.exit(0)
-		print output
-		if data[:5] == '/MESG' and data[-5:] == 'MESG/':
-			try:
-				plain = aescipher.decrypt(data[5:-5])
-				print plain
-				toappend.emit(_fromUtf8(plain))
-			except Exception as e:
-				print(e)
 
 def execAndClose(main, thread):
 	exitcode = main.exec_()
@@ -84,18 +67,20 @@ def execAndClose(main, thread):
 	return exitcode
 
 
-if __name__ == '__main__':
+def main():
 
-	app = QtGui.QApplication(sys.argv)
-	serverDialog = QtGui.QDialog()
-	usernameDialog = QtGui.QDialog()
+	app = QtWidgets.QApplication(sys.argv)
+	serverDialog = QtWidgets.QDialog()
+	usernameDialog = QtWidgets.QDialog()
 	serverUi = server_dialog.Ui_Dialog()
 	serverUi.setupUi(serverDialog)
-	QtCore.QObject.connect(serverUi.buttonBox, QtCore.SIGNAL(_fromUtf8('rejected()')), sys.exit)
+	serverUi.buttonBox.rejected.connect(sys.exit)
+	# QtCore.QObject.connect(serverUi.buttonBox, QtCore.SIGNAL(_fromUtf8('rejected()')), sys.exit)
 	serverDialog.setFixedSize(serverDialog.size())
 	usernameUi = username_dialog.Ui_Dialog()
 	usernameUi.setupUi(usernameDialog)
-	QtCore.QObject.connect(usernameUi.buttonBox, QtCore.SIGNAL(_fromUtf8('rejected()')), sys.exit)
+	usernameUi.buttonBox.rejected.connect(sys.exit)
+	# QtCore.QObject.connect(usernameUi.buttonBox, QtCore.SIGNAL(_fromUtf8('rejected()')), sys.exit)
 	usernameDialog.setFixedSize(usernameDialog.size())
 	ChatClientWindow = Window()
 	mainUi = main_window.Ui_MainWindow()
@@ -155,3 +140,5 @@ if __name__ == '__main__':
 	recieveThread.toappend.connect(lambda txt: mainUi.textEdit.append(txt))
 	recieveThread.start()
 	sys.exit(execAndClose(app, recieveThread))
+
+main()

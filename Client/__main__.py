@@ -5,14 +5,7 @@ import sys
 from nclib import Netcat, NetcatError
 import pyDH
 from ..Cryptography import crypto
-from PyUIs import main_window, server_dialog, username_dialog
-
-try:
-	_fromUtf8 = QtCore.QString.fromUtf8
-except AttributeError:
-	def _fromUtf8(s):
-		return s
-
+from PyUIs import MainWindow, ServerDialog, UsernameDialog
 
 def sendMesg(netcat, linedit, aescipher, header='MESG'):
 	netcat.send('/' + header + aescipher.encrypt(str(linedit.text().encode('utf-8'))) + header + '/\r\n')
@@ -61,8 +54,8 @@ class RecvThread(QtCore.QThread):
 	def stop(self):
 		self.terminate()
 
-def execAndClose(main, thread):
-	exitcode = main.exec_()
+def execAndClose(run, thread):
+	exitcode = run.exec_()
 	thread.stop()
 	return exitcode
 
@@ -70,38 +63,36 @@ def execAndClose(main, thread):
 def main():
 
 	app = QtWidgets.QApplication(sys.argv)
-	serverDialog = QtWidgets.QDialog()
-	usernameDialog = QtWidgets.QDialog()
-	serverUi = server_dialog.Ui_Dialog()
-	serverUi.setupUi(serverDialog)
-	serverUi.buttonBox.rejected.connect(sys.exit)
-	# QtCore.QObject.connect(serverUi.buttonBox, QtCore.SIGNAL(_fromUtf8('rejected()')), sys.exit)
-	serverDialog.setFixedSize(serverDialog.size())
-	usernameUi = username_dialog.Ui_Dialog()
-	usernameUi.setupUi(usernameDialog)
-	usernameUi.buttonBox.rejected.connect(sys.exit)
-	# QtCore.QObject.connect(usernameUi.buttonBox, QtCore.SIGNAL(_fromUtf8('rejected()')), sys.exit)
-	usernameDialog.setFixedSize(usernameDialog.size())
-	ChatClientWindow = Window()
-	mainUi = main_window.Ui_MainWindow()
+	server_dialog = QtWidgets.QDialog()
+	username_dialog = QtWidgets.QDialog()
+	server_ui = ServerDialog.Ui_Dialog()
+	server_ui.setupUi(server_dialog)
+	server_ui.buttonBox.rejected.connect(sys.exit)
+	server_dialog.setFixedSize(server_dialog.size())
+	username_ui = UsernameDialog.Ui_Dialog()
+	username_ui.setupUi(username_dialog)
+	username_ui.buttonBox.rejected.connect(sys.exit)
+	username_dialog.setFixedSize(username_dialog.size())
+	chat_client_window = Window()
+	main_ui = MainWindow.Ui_MainWindow()
 	while True:
-		serverDialog.exec_()
+		server_dialog.exec_()
 		try:
-			PORT = int(serverUi.lineEdit_2.text())
+			port = int(server_ui.lineEdit_2.text())
 		except ValueError:
-			serverUi.label_3.setText('Invalid Port!')
+			server_ui.label_3.setText('Invalid Port!')
 			continue
-		if PORT > 65535:
-			serverUi.label_3.setText('Invalid Port!')
+		if port > 65535:
+			server_ui.label_3.setText('Invalid Port!')
 			continue
-		HOST = serverUi.lineEdit.text()
+		host = server_ui.lineEdit.text()
 		try:
-			nc = Netcat((HOST, PORT), verbose=False)
-		except:
-			serverUi.label_3.setText('Could not Connect!')
+			nc = Netcat((host, port), verbose=False)
+		except NetcatError:
+			server_ui.label_3.setText('Could not Connect!')
 			continue
 		break
-	print('Connected to %s:%s' % (HOST, PORT))
+	print('Connected to {0}:{1}'.format(host, port))
 	while True:
 		buf = nc.recv_until('\r\n').replace('\r\n', '')
 		if buf == '/HELO':
@@ -117,28 +108,29 @@ def main():
 	print('Completed DH handshake.')
 
 	while True:
-		usernameDialog.exec_()
-		nc.send('/UNST' + aes.encrypt(str(usernameUi.lineEdit.text())) + 'UNST/\r\n')
+		username_dialog.exec_()
+		nc.send('/UNST' + aes.encrypt(str(username_ui.lineEdit.text())) + 'UNST/\r\n')
 		buf = nc.recv_until('\r\n').replace('\r\n', '')
 		if buf == '/UNOK':
 			break
 		elif buf == '/UNTK':
-			usernameUi.label_2.setText('Username Taken!')
+			username_ui.label_2.setText('Username Taken!')
 			continue
 		elif buf == '/UNIV':
-			usernameUi.label_2.setText('Username Invalid!')
+			username_ui.label_2.setText('Username Invalid!')
 			continue
 
 	print('Username is confirmed.')
-	mainUi.setupUi(ChatClientWindow)
-	mainUi.sendButton.clicked.connect(lambda: sendMesg(nc, mainUi.lineEdit, aes))
-	mainUi.lineEdit.returnPressed.connect(lambda: sendMesg(nc, mainUi.lineEdit, aes))
-	ChatClientWindow.resized.connect(lambda: resize(mainUi, ChatClientWindow))
-	ChatClientWindow.show()
-	running = True
-	recieveThread = RecvThread(nc, aes)
-	recieveThread.toappend.connect(lambda txt: mainUi.textEdit.append(txt))
-	recieveThread.start()
-	sys.exit(execAndClose(app, recieveThread))
+	main_ui.setupUi(chat_client_window)
+	main_ui.sendButton.clicked.connect(lambda: sendMesg(nc, main_ui.lineEdit, aes))
+	main_ui.lineEdit.returnPressed.connect(lambda: sendMesg(nc, main_ui.lineEdit, aes))
+	chat_client_window.resized.connect(lambda: resize(main_ui, chat_client_window))
+	chat_client_window.setWindowTitle('PyChat Client - {0}:{1}'.format(host, port))
+	chat_client_window.show()
+	recieve_thread = RecvThread(nc, aes)
+	recieve_thread.toappend.connect(lambda txt: main_ui.textEdit.append(txt))
+	recieve_thread.start()
+	sys.exit(execAndClose(app, recieve_thread))
+
 
 main()

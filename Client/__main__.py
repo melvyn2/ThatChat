@@ -128,7 +128,7 @@ def main():
 	chat_client_window.setWindowTitle('PyChat Client - {0}:{1}'.format(host, port))
 	chat_client_window.show()
 	recieve_thread = RecvThread(nc, aes)
-	recieve_thread.toappend.connect(lambda txt: main_ui.textEdit.append(txt))
+	recieve_thread.toappend.connect(main_ui.textEdit.append)
 	recieve_thread.start()
 	sys.exit(execAndClose(app, recieve_thread))
 

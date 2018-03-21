@@ -24,6 +24,7 @@
       <option name="ignoredIdentifiers">
         <list>
           <option value="Server.Cryptography" />
+          <option value="twisted.internet.reactor.*" />
         </list>
       </option>
     </inspection_tool>

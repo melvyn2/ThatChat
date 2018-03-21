@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'PyChat/Client/UIs/username_dialog.ui'
+# Form implementation generated from reading ui file 'usernameDialog.ui'
 #
 # Created by: PyQt5 UI code generator 5.10.1
 #

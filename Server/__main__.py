@@ -34,7 +34,7 @@ class ChatHandler(LineReceiver):
         for name, protocol in self.users.iteritems():
             if protocol != self:
                 self.sendMsg(self.name, 'DSCT')
-        # self.log('%s lost connection' % self.name)
+        # self.log('{0} lost connection'.format(self.name))
         if self.name in self.users:
             del self.users[self.name]
 
@@ -68,7 +68,7 @@ class ChatHandler(LineReceiver):
                 for name, protocol in self.users.iteritems():
                     if protocol != self:
                         protocol.sendMsg(self.name, 'UNJD')
-                # self.log('%s joined.' % self.name)
+                # self.log('{0} joined.'.format(self.name))
                 self.state = 2
         elif self.state == 2:
             if line[:5] == '/MESG' and line[-5:] == 'MESG/':
@@ -78,7 +78,7 @@ class ChatHandler(LineReceiver):
                         self.sendCmd('/NSPM')
                     else:
                         for protocol in self.users.itervalues():
-                            protocol.sendMsg('<span style=\"color:' + ('#0000ff' if protocol == self else '#40FF00') + ';\" >[%s]<span style=\"color:#000000;\" > %s' % (self.name, dmsg))
+                            protocol.sendMsg('<span style=\"color:' + ('#0000ff' if protocol == self else '#40FF00') + ';\" >[{0}]<span style=\"color:#000000;\" > {1}'.format(self.name, dmsg))
                     self.tdelay = time.localtime(time.time())[4] * 100 + time.localtime(time.time())[5]
 
 
@@ -89,18 +89,21 @@ class ChatFactory(Factory):
         self.users = {}
 
     def buildProtocol(self, addr):
-        return ChatHandler(self.users)  # , self.LogFile)
+        return ChatHandler(self.users)
 
 
-if len(sys.argv) < 2 or len(sys.argv) > 3:
-    print('Usage: [sudo] python -m PyChat.Server <server port> [logfile]\r\nExample: sudo python -m PyChat.Server 7000\r\nYou must be in the directory one level above the PyChat folder for it to work.')
+if len(sys.argv) > 2:
+    print('Usage: [sudo] python -m PyChat.Server [server port]\r\nExample: sudo python -m PyChat.Server 500\r\nYou must be in the directory one level above the PyChat folder for it to work.')
     sys.exit(0)
 try:
-    reactor.listenTCP(int(sys.argv[1]), ChatFactory(sys.argv[3] if len(sys.argv) == 3 else None))
+    reactor.listenTCP(int(sys.argv[1]) if len(sys.argv) == 2 else 7000, ChatFactory(None))
     reactor.run()
 
+except ValueError:
+    print('Port should be an integer.')
+    
 except twisted.internet.error.CannotListenError:
-    print('Could not bind to port %s. Try running as root/with sudo, or checking if other procceses are using that port.' % sys.argv[1])
+    print('Could not bind to port {0}. Try running as root/with sudo, or checking if other procceses are using that port.'.format(sys.argv[1] if len(sys.argv) == 2 else 7000))
     sys.exit(1)
 
 except Exception as e:

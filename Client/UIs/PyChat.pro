@@ -11,6 +11,6 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = ChatClient
 TEMPLATE = app
 
-FORMS    += main_window.ui \
-    server_dialog.ui \
-    username_dialog.ui
+FORMS    += mainWindow.ui \
+    serverDialog.ui \
+    usernameDialog.ui

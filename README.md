@@ -1,8 +1,10 @@
-# PyChat - (Currently Insecure) Encrypted Python Chat
+# PyChat - Encrypted Python Chat
 
 This a small python project for encrypted chat.
 
 
+Features
+--------
 
 
 

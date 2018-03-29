@@ -37,10 +37,10 @@ if action == 'build':
 				pyinstallerPath = path
 				break
 		if not pyinstallerPath:
-			pyinstallerPath = raw_input("Path to pyinstaller: ")
+			pyinstallerPath = raw_input("Path to bindir containing pyinstaller: ")
 
 	clean()
-	subprocess.call(['python2.7', os.path.join(pyinstallerPath, 'pyinstaller'), 'PyChat Client.spec'])
+	subprocess.call([os.path.join(pyinstallerPath, 'pyinstaller'), 'PyChat Client.spec'])
 
 elif action == 'install':
 	if sys.platform == 'darwin':
@@ -87,7 +87,7 @@ elif action == 'install':
 		print('Not fully developed yet. \'make.py build\' will build the executable and put it in the \'dist\' directory.')
 
 elif action == 'run':
-	subprocess.call(['python2.7', '-m',  'Src.Client'])
+	subprocess.call(['python2.7', 'Src/Client.py'] + sys.argv[2:])
 
 elif action == 'clean':
 	clean()

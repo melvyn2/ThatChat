@@ -15,10 +15,11 @@ Requirements
 
 • [pyDH](https://github.com/amiralis/pyDH)
 
-• 
-
+• (For Building) [PyInstaller (with PyQt5 Fix)](https://github.com/pyinstaller/pyinstaller/pull/3233#issuecomment-362094587)
 
 
 Known Issues
 ------------
 Compeletly vulnerable to MITM (no authenticity checks)
+
+PyQt5 fix for PyInstaller required for correctly building project (wont fix here). Click on the pyinstaller link and follow the instructions in the comment.

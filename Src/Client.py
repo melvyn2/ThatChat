@@ -46,8 +46,7 @@ class RecvThread(QtCore.QThread):
 			if data[:5] == '/MESG' and data[-5:] == 'MESG/':
 				try:
 					plain, integ = self.aescipher.decrypt(data[5:-5])
-					print ('' if integ else 'Corrupted/tampered') + plain
-					self.toappend.emit(plain.decode('utf-8'))
+					self.toappend.emit('' if integ else 'Corrupted/tampered' + plain.decode('utf-8'))
 				except Exception as e:
 					print(e)
 
@@ -61,9 +60,7 @@ def execAndClose(run, thread):
 
 
 def main():
-
 	app = QtWidgets.QApplication(sys.argv)
-	app.setStyle(u'Macintosh')
 	server_dialog = QtWidgets.QDialog()
 	username_dialog = QtWidgets.QDialog()
 	server_ui = ServerDialog.Ui_Dialog()

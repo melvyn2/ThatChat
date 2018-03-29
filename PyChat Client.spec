@@ -5,8 +5,7 @@ import sys
 block_cipher = None
 
 
-a = Analysis(['Client.py'],
-			 pathex=['/Users/melvyn/PyChat/Src'],
+a = Analysis(['Src/Client.py'],
 			 binaries=[],
 			 datas=[],
 			 hiddenimports=[],
@@ -21,7 +20,7 @@ pyz = PYZ(a.pure, a.zipped_data,
 exe = EXE(pyz,
 		  a.scripts,
 		  a.binaries + [('msvcp100.dll', 'C:\\Windows\\System32\\msvcp100.dll', 'BINARY'),
-		  ('msvcr100.dll', 'C:\\Windows\\System32\\msvcr100.dll', 'BINARY')]
+			('msvcr100.dll', 'C:\\Windows\\System32\\msvcr100.dll', 'BINARY')]
 		  if sys.platform == 'win32' else a.binaries,
 		  a.zipfiles,
 		  a.datas,

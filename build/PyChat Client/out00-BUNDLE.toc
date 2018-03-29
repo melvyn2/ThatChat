@@ -1,0 +1,1 @@
+([('PyChat', '/Users/melvyn/PyChat/dist/PyChat', 'EXECUTABLE')],)

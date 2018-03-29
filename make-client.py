@@ -93,4 +93,4 @@ elif action == 'clean':
 	clean()
 
 else:
-	print "Invalid option\nPossible options: build, install, install --user, install --installdir <installdir> run, clean"
+	print 'Invalid option\nPossible options: build, install, install --user, install --installdir <installdir> run, clean'

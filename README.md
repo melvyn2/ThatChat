@@ -20,6 +20,6 @@ Requirements
 
 Known Issues
 ------------
-Compeletly vulnerable to MITM (no authenticity checks)
+Compeletly vulnerable to MITM (no authenticity checks); Server signing coming soon.
 
 PyQt5 fix for PyInstaller required for correctly building project (wont fix here). Click on the pyinstaller link and follow the instructions in the comment.

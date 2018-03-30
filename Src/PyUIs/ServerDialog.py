@@ -12,7 +12,7 @@ class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.setEnabled(True)
-        Dialog.resize(388, 175)
+        Dialog.resize(388, 189)
         self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
         self.buttonBox.setGeometry(QtCore.QRect(155, 125, 171, 32))
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
@@ -37,8 +37,9 @@ class Ui_Dialog(object):
         self.lineEdit_2.setObjectName("lineEdit_2")
         self.label_3 = QtWidgets.QLabel(Dialog)
         self.label_3.setEnabled(True)
-        self.label_3.setGeometry(QtCore.QRect(50, 130, 121, 16))
+        self.label_3.setGeometry(QtCore.QRect(50, 160, 266, 16))
         self.label_3.setText("")
+        self.label_3.setAlignment(QtCore.Qt.AlignCenter)
         self.label_3.setObjectName("label_3")
 
         self.retranslateUi(Dialog)

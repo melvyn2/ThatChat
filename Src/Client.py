@@ -46,7 +46,7 @@ class RecvThread(QtCore.QThread):
 			if data[:5] == '/MESG' and data[-5:] == 'MESG/':
 				try:
 					plain, integ = self.aescipher.decrypt(data[5:-5])
-					self.toappend.emit('' if integ else 'Corrupted/tampered' + plain.decode('utf-8'))
+					self.toappend.emit(('' if integ else 'Corrupted/tampered') + plain.decode('utf-8'))
 				except Exception as e:
 					print(e)
 
@@ -107,7 +107,11 @@ def main():
 
 	while True:
 		username_dialog.exec_()
-		nc.send('/UNST' + aes.encrypt(str(username_ui.lineEdit.text())) + 'UNST/\r\n')
+		try:
+			nc.send('/UNST' + aes.encrypt(str(username_ui.lineEdit.text())) + 'UNST/\r\n')
+		except UnicodeEncodeError:
+			username_ui.label_2.setText('Unicode is not supported in usernames!')
+			continue
 		buf = nc.recv_until('\r\n').replace('\r\n', '')
 		if buf == '/UNOK':
 			break
@@ -129,6 +133,7 @@ def main():
 	recieve_thread.toappend.connect(main_ui.textEdit.append)
 	recieve_thread.start()
 	sys.exit(execAndClose(app, recieve_thread))
+
 
 if __name__ == '__main__':
 	main()

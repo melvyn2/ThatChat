@@ -46,5 +46,6 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "ChatClientWindow"))
         self.sendButton.setText(_translate("MainWindow", "Send!"))
+        self.lineEdit.setPlaceholderText(_translate("MainWindow", "Type your message here..."))
         self.menuPyChat_Client.setTitle(_translate("MainWindow", "PyChat Client"))
 

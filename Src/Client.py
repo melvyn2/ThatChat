@@ -130,5 +130,5 @@ def main():
 	recieve_thread.start()
 	sys.exit(execAndClose(app, recieve_thread))
 
-
-main()
+if __name__ == '__main__':
+	main()

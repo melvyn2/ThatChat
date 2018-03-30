@@ -9,13 +9,15 @@ Requirements
 
 • [Pycryptodome/Pycryptodomex](https://github.com/Legrandin/pycryptodome)
 
-• [PyQt5](https://www.riverbankcomputing.com/software/pyqt/download5)
+• [PyQt5](https://www.riverbankcomputing.com/software/pyqt/download5) for the client
 
-• [nclib](https://github.com/rhelmot/nclib)
+• [nclib](https://github.com/rhelmot/nclib) for the client
 
 • [pyDH](https://github.com/amiralis/pyDH)
 
-• (For Building) [PyInstaller (with PyQt5 Fix)](https://github.com/pyinstaller/pyinstaller/pull/3233#issuecomment-362094587)
+• [PyInstaller (with PyQt5 Fix)](https://github.com/pyinstaller/pyinstaller/pull/3233#issuecomment-362094587) for building
+
+• [Twisted](http://twistedmatrix.com/)
 
 
 Known Issues

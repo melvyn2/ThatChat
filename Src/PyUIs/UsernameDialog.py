@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(388, 150)
+        Dialog.resize(388, 159)
         self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
         self.buttonBox.setGeometry(QtCore.QRect(155, 100, 171, 32))
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
@@ -25,7 +25,7 @@ class Ui_Dialog(object):
         self.label.setGeometry(QtCore.QRect(50, 40, 241, 21))
         self.label.setObjectName("label")
         self.label_2 = QtWidgets.QLabel(Dialog)
-        self.label_2.setGeometry(QtCore.QRect(50, 105, 111, 16))
+        self.label_2.setGeometry(QtCore.QRect(50, 130, 266, 16))
         self.label_2.setText("")
         self.label_2.setObjectName("label_2")
 

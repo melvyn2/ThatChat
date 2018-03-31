@@ -105,6 +105,9 @@ Try running as root/with sudo, or check if other procceses are using that port.'
 		.format(sys.argv[1] if len(sys.argv) == 2 else 7000))
 	sys.exit(1)
 
+except twisted.internet.error.ReactorNotRunning:
+	sys.exit(0)
+
 except Exception as e:
 	print(e)
 	sys.exit(2)

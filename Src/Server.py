@@ -88,9 +88,9 @@ class ChatFactory(Factory):
 
 
 if len(sys.argv) > 2:
-	print('''Usage: python {0} [server port]
-Example: python {0} 500
-The default port is 7000.'''.format(sys.argv[0]))
+	print('''Usage: {0}{1} [server port]
+Example: {0}{1} 500
+The default port is 7000.'''.format(('' if getattr(sys, 'frozen', False) else 'python '), sys.argv[0]))
 	sys.exit(0)
 try:
 	reactor.listenTCP(int(sys.argv[1]) if len(sys.argv) == 2 else 7000, ChatFactory(None))

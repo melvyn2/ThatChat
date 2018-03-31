@@ -53,6 +53,8 @@ if action == 'build':
 	subprocess.call([os.path.join(pyinstallerPath, 'pyinstaller'), ('PyChat ' + program + '.spec')])
 
 elif action == 'install':
+	if program == 'Server':
+		print('Currently (and for the forseeable future), installing the server will not be supported.')
 	if sys.platform == 'darwin':
 		if not os.path.isdir(os.path.join('dist', 'PyChat Client.app')):
 			print('You must build the program first, like so:\n    {0} build'.format(sys.argv[0]))

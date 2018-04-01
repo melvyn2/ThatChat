@@ -86,28 +86,35 @@ class ChatFactory(Factory):
 	def buildProtocol(self, addr):
 		return ChatHandler(self.users)
 
+def main(port=7000):
+	try:
+		reactor.listenTCP(int(port), ChatFactory(None))
+		reactor.run()
 
-if len(sys.argv) > 2:
-	print('''Usage: {0}{1} [server port]
-Example: {0}{1} 500
-The default port is 7000.'''.format(('' if getattr(sys, 'frozen', False) else 'python '), sys.argv[0]))
-	sys.exit(0)
-try:
-	reactor.listenTCP(int(sys.argv[1]) if len(sys.argv) == 2 else 7000, ChatFactory(None))
-	reactor.run()
+	except ValueError:
+		print('Port should be an integer.')
 
-except ValueError:
-	print('Port should be an integer.')
-
-except twisted.internet.error.CannotListenError:
-	print('''Could not bind to port {0}.
+	except twisted.internet.error.CannotListenError:
+		print('''Could not bind to port {0}.
 Try running as root/with sudo, or check if other procceses are using that port.'''
-		.format(sys.argv[1] if len(sys.argv) == 2 else 7000))
-	sys.exit(1)
+			.format(sys.argv[1] if len(sys.argv) == 2 else 7000))
+		sys.exit(1)
 
-except twisted.internet.error.ReactorNotRunning:
-	sys.exit(0)
+	except twisted.internet.error.ReactorNotRunning:
+		sys.exit(0)
 
-except Exception as e:
-	print(e)
-	sys.exit(2)
+	except Exception as e:
+		print(e)
+		sys.exit(2)
+
+
+if __name__ == '__main__':
+	if len(sys.argv) > 2:
+		print('''Usage: {0}{1} [server port]
+	Example: {0}{1} 500
+	The default port is 7000.'''.format(('' if getattr(sys, 'frozen', False) else 'python '), sys.argv[0]))
+		sys.exit(0)
+	try:
+		main(sys.argv[1])
+	except IndexError:
+		main()

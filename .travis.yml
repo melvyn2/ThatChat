@@ -1,8 +1,20 @@
 language: python
+python: 2.7
 sudo: required
 before_script:
- - wget http://mirrors.kernel.org/ubuntu/pool/universe/p/pyqt5/python-pyqt5_5.5.1+dfsg-3ubuntu4_amd64.deb
- - sudo dpkg -i python-pyqt5_5.5.1+dfsg-3ubuntu4_amd64.deb
+ - wget https://sourceforge.net/projects/pyqt/files/sip/sip-4.19.8/sip-4.19.8.tar.gz
+ - tar xf sip-4.19.8.tar.gz
+ - cd sip-4.19.8
+ - echo 'yes' | python ./configure
+ - make -j9
+ - make install
+ - cd ..
+ - wget https://sourceforge.net/projects/pyqt/files/PyQt5/PyQt-5.10.1/PyQt5_gpl-5.10.1.tar.gz
+ - tar -xf PyQt5_gpl-5.10.1.tar.gz
+ - cd PyQt5_gpl-5.10.1
+ - echo 'yes' | python ./configure.py
+ - make -j9
+ - make install
 addons:
   apt:
     packages:
@@ -19,7 +31,5 @@ addons:
       - libqt5widgets5
       - libqt5xml5
       - libstdc++6
-      - qtbase-abi-5-5-1
-      - sip-api-11.2
 install: pip install pydh twisted pycryptodome pycryptodomex nclib https://github.com/bjones1/pyinstaller/archive/pyqt5_fix.zip
 script: python make.py build all

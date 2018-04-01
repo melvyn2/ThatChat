@@ -1,8 +1,11 @@
 language: python
 sudo: required
+before_script:
+#  - curl http://repo.varnish-cache.org/debian/GPG-key.txt | sudo apt-key add -
+  - echo "deb http://us.archive.ubuntu.com/ubuntu/ xenial main" | sudo tee -a /etc/apt/sources.list
+  - sudo apt-get update -qq
 addons:
   apt:
-    sources: xenial
     packages: python-pyqt5
 install: pip install pydh twisted pycryptodome pycryptodomex nclib https://github.com/bjones1/pyinstaller/archive/pyqt5_fix.zip
 script: python make.py build all

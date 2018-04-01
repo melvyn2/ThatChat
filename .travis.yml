@@ -1,9 +1,25 @@
 language: python
 sudo: required
 before_script:
-#  - curl http://repo.varnish-cache.org/debian/GPG-key.txt | sudo apt-key add -
-  - echo "deb http://us.archive.ubuntu.com/ubuntu/ xenial main" | sudo tee -a /etc/apt/sources.list
-  - sudo apt-get update
-  - sudo apt-get install -y python-pyqt5
+ - wget http://mirrors.kernel.org/ubuntu/pool/universe/p/pyqt5/python-pyqt5_5.5.1+dfsg-3ubuntu4_amd64.deb
+ - sudo dpkg -i python-pyqt5_5.5.1+dfsg-3ubuntu4_amd64.deb
+addons:
+  apt:
+    packages:
+      - libc6
+      - libgcc1
+      - libqt5core5a
+      - libqt5dbus5
+      - libqt5designer5
+      - libqt5gui5
+      - libqt5help5
+      - libqt5network5
+      - libqt5printsupport5
+      - libqt5test5
+      - libqt5widgets5
+      - libqt5xml5
+      - libstdc++6
+      - qtbase-abi-5-5-1
+      - sip-api-11.2
 install: pip install pydh twisted pycryptodome pycryptodomex nclib https://github.com/bjones1/pyinstaller/archive/pyqt5_fix.zip
 script: python make.py build all

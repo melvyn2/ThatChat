@@ -1,4 +1,5 @@
 language: python
+sudo: required
 addons:
   apt:
     sources: xenial

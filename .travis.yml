@@ -9,8 +9,8 @@ before_script:
  - make -j9
  - make install
  - cd ..
- - wget http://mirrors.kernel.org/ubuntu/pool/main/q/qtbase-opensource-src/qt5-qmake_5.9.1+dfsg-10ubuntu1_amd64.deb
- - sudo dpkg -i qt5-qmake_5.9.1+dfsg-10ubuntu1_amd64.deb
+# - wget http://mirrors.kernel.org/ubuntu/pool/main/q/qtbase-opensource-src/qt5-qmake_5.9.1+dfsg-10ubuntu1_amd64.deb
+# - sudo dpkg -i qt5-qmake_5.9.1+dfsg-10ubuntu1_amd64.deb
  - wget https://sourceforge.net/projects/pyqt/files/PyQt5/PyQt-5.10.1/PyQt5_gpl-5.10.1.tar.gz
  - tar -xf PyQt5_gpl-5.10.1.tar.gz
  - cd PyQt5_gpl-5.10.1
@@ -34,5 +34,6 @@ addons:
       - libqt5xml5
       - libstdc++6
       - qtchooser
+      - qt5-qmake
 install: pip install pydh twisted pycryptodome pycryptodomex nclib https://github.com/bjones1/pyinstaller/archive/pyqt5_fix.zip
 script: python make.py build all

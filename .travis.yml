@@ -1,2 +1,5 @@
 language: python
+install:
+ - apt install python-pyqt5
+ - pip install pydh twisted pycryptodome pycryptodomex nclib https://github.com/bjones1/pyinstaller/archive/pyqt5_fix.zip
 script: python make.py build all

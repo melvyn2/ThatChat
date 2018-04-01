@@ -17,6 +17,7 @@ before_script:
  - echo 'yes' | python ./configure.py
  - make -j9
  - make install
+ - cd ../PyChat
 addons:
   apt:
     packages:

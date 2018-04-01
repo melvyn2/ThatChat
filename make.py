@@ -8,7 +8,7 @@ from PyInstaller.__main__ import run as freeze
 
 def clean():
 	delete('build')
-	delete('dist')
+	delete('bin')
 	for r, d, f in os.walk('.'):
 		for t in fnmatch.filter(f, '*.pyc'):
 			delete(os.path.join(r, t))
@@ -31,18 +31,22 @@ if action == 'build':
 	try:
 		if sys.argv[2].lower() == 'client':
 			clean()
-			freeze(['PyChat Client.spec'])
+			freeze(['--distpath', os.path.join('bin', sys.platform), '--workpath', os.path.join('build', sys.platform),
+				'PyChat Client.spec'])
 		elif sys.argv[2].lower() == 'server':
 			clean()
-			freeze(['PyChat Server.spec'])
+			freeze(['--distpath', os.path.join('bin', sys.platform), '--workpath', os.path.join('build', sys.platform),
+				'PyChat Server.spec'])
 		elif sys.argv[2].lower() == 'all':
 			clean()
-			freeze(['PyChat Client.spec'])
-			freeze(['PyChat Server.spec'])
+			freeze(['--distpath', os.path.join('bin', sys.platform), '--workpath', os.path.join('build', sys.platform),
+				'PyChat Client.spec'])
+			freeze(['--distpath', os.path.join('bin', sys.platform), '--workpath', os.path.join('build', sys.platform),
+				'PyChat Server.spec'])
 		else:
 			print('Usage: {0} build <program>\nWhere progam is \'client\', \'server\', or \'all\'.'.format(sys.argv[0]))
 			sys.exit()
-		print('You can find your built executable(s) in the \'dist\' directory.')
+		print('You can find your built executable(s) in the \'bin\' directory.')
 	except IndexError:
 		print('Usage: {0} build <program>\nWhere progam is \'client\', \'server\', or \'all\'.'.format(sys.argv[0]))
 

@@ -70,7 +70,6 @@ class ChatHandler(LineReceiver):
 					if self.tdelay > time.localtime(time.time())[4] * 100 + time.localtime(time.time())[5] - 0.75:
 						self.sendCmd('/NSPM')
 					else:
-						print('ok')
 						for protocol in self.users.itervalues():
 							protocol.sendMsg('<span style=\"color:' + ('#0000ff' if protocol == self else '#40FF00') +
 								';\" >[{0}]<span style=\"color:#000000;\" > {1}'.format(self.name, dmsg))

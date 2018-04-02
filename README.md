@@ -1,4 +1,4 @@
-# PyChat - Encrypted Python Chat
+# PyChat - Encrypted Python Chat [![Build Status](https://travis-ci.org/melvyn2/PyChat.svg?branch=master)](https://travis-ci.org/melvyn2/PyChat)
 
 This a small python project for encrypted chat.
 

@@ -54,7 +54,7 @@ REM --qmake $HOME/miniconda/bin/qmake --sip $HOME/miniconda/bin/sip --verbose
 echo "(f) Compiling PyQt in %CD%"
 call "C:\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\Tools\vsvars32.bat"
 cd "C:\projects\pyqt\PyQt5_gpl-%PYQT_VER%"
-nmake
+mingw32-make
 
 echo "(g) Installing PyQt"
 nmake install

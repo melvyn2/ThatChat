@@ -1,6 +1,16 @@
 language: python
 python: 2.7
 sudo: required
+deploy:
+  provider: releases
+  api_key:
+    secure: "yxtrSu/a4uVjCXjkT6y9vzns1g0H0xYx9suNYr7KWotrkud78vGYfg/qkS3R4mT8cKOqtNq5gxszNeH9DkTKVI/XD9049/NU/BNMnWRoqiEJTTaWCLdb0HSsmdKUWKxdoBROXnwA5w4ZKgfL6Wr2lssWqC3uQ2TuqTmVj0SNX9kf/JO8pqZ/Nj5u8Okr0ZmZDYPlX6g2smrTz5lRxw7JKtqODnlJsH4pUz7EgYQcmDNHFd2WNUvFziATLG9NnYo6WkRqvraN+E8XT0qN5MD1xabhAAGSGdHl9rV2XFW9knWvywV4IwevphsRQjat9L8PulKuznUd1dI+8/M0O9deEzmUG8owp2o4K2ur7bkfIcOBhH+FupavLshCIPyTnUZKSkb+xq68izv4FHz9QG6wy57vNMSiCEGPKfZ66MY/eOngiZix8NrXidVoYxAW15vLnr/iGP/Ag8G3E4NrzcvmsfEeZ8X/lyWcGQ+DWKuesrG9C7sqrg5k82badzjJvW8wzWNinU6gGo709AOuaERf9eFMDckSfGFXlVAHh8QTP8vydhbQn3DaRW02O8FzK9i4bRDmhUZ2bKlpzWdO7DDce/En6b1evsEnIlEqQL63vJ8bjIVtfNy6XBuzU58mOpFQ//MPxxYFBSwf2tUPWMB3z63dVuEsRzJY9i/PAjh4AuY="
+  file:
+   - 'dist/linux/PyChat'
+   - 'dist/linux/PyChatServer'
+  skip_cleanup: true
+  on:
+    tags: true
 before_script:
  - export PROJDIR=$PWD
  - wget https://sourceforge.net/projects/pyqt/files/sip/sip-4.19.8/sip-4.19.8.tar.gz

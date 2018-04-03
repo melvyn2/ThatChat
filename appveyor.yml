@@ -1,36 +1,24 @@
-build: false
-environment:
-  matrix:
-    - PYTHON: "C:\\Python27"
-      PyQt: "https://downloads.sourceforge.net/project/pyqt/PyQt5/PyQt-5.10.1/PyQt5_gpl-5.10.1.zip"
-      SIP: "https://sourceforge.net/projects/pyqt/files/sip/sip-4.19.8/sip-4.19.8.zip"
-init:
-  - "ECHO %PYTHON%"
-  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
-install:
-  - REG ADD HKCU\Software\Python\PythonCore\2.7\InstallPath /f /ve /t REG_SZ /d %PYTHON%
-  - ps: (new-object net.webclient).DownloadFile($env:PyQt, "C:\PyQt5.zip")
-  - ps: (new-object net.webclient).DownloadFile($env:SIP, "C:\SIP.zip")
-  - ps: Expand-Archive "C:\PyQt5.zip" "C:\PyQt5"
-  - ps: Expand-Archive "C:\SIP.zip" "C:\SIP"
-  - cd C:\SIP\sip-4.19.8
-  - python configure.py
-  - C:\Qt\5.10.1\msvc2015_64\bin\qtenv2.bat
-  - cd C:\SIP\sip-4.19.8
-  - cd "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools"
-  - vsvars32.bat
-  - cd C:\SIP\sip-4.19.8
-  - nmake
-  - nmake install
-  - cd C:\PyQt5\PyQt5_gpl-5.10.1
-  - python ./configure.py --verbose --no-python-dbus --no-qml-plugin --no-qsci-api --no-tools --confirm-license --disable QtNfc --disable QtHelp --disable QtMultimedia --disable QtMultimediaWidgets --disable QtNetwork --disable QtOpenGL --disable QtPrintSupport --disable QtQml --disable QtQuick --disable QtSql --disable QtSvg --disable QtTest --disable QtWebKit --disable QtWebKitWidgets --disable QtXml --disable QtXmlPatterns --disable QtDesigner --disable QAxContainer --disable QtDBus --disable QtWebSockets --disable QtWebChannel --disable QtNfc --disable QtBluetooth --disable QtX11Extras --disable QtQuickWidgets --disable _QOpenGLFunctions_2_0 --disable _QOpenGLFunctions_2_1 --disable _QOpenGLFunctions_4_1_Core
-  - nmake
-  - nmake install
-  - "python -c \"from PyQt5 import QtCore\""
-  - "pip install pydh twisted pycryptodome pycryptodomex nclib https://github.com/bjones1/pyinstaller/archive/pyqt5_fix.zip"
-  - cd C:\projects\pychat
-test_script:
-  - "python make.py build all"
 
-artifacts:
-  - path: bin/win32/*
+environment:
+  global:
+    # without this flag, debugging is a nightmare :)
+    APPVEYOR_SAVE_CACHE_ON_ERROR: true
+  matrix:
+      QT_VER: 5.9
+      PYQT_VER: 5.9
+
+install:
+  - if not exist %QT_DIR%\bin\Qt5Core.dll (
+      echo "No cache found, building qt" &
+      call ./ci_tools/build_install_qt.bat
+    ) else (
+      echo "Found existing cache in %QT_DIR%" &
+      dir %QT_DIR%
+    )
+  - echo "Adding Qt to PATH" & set PATH=%QT_DIR%/bin;%PATH%
+
+build: off
+
+test_script:
+  - cd C:\projects\pychat
+  - python make.py build all

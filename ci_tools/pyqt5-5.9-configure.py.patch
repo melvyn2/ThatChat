@@ -37,5 +37,3 @@ index b24866d..eda0b1a 100644
 +    mkfile = mkfile.replace('CXXFLAGS      = -pipe', 'CXXFLAGS      = -pipe -D_hypot=hypot')
 +    with open(file_name, 'w') as f:
 +        f.write(mkfile)
-+
-+

@@ -1,16 +1,9 @@
-
-environment:
-  global:
-    # without this flag, debugging is a nightmare :)
-    APPVEYOR_SAVE_CACHE_ON_ERROR: true
-  matrix:
-      - QT_VER: 5.9
-      - PYQT_VER: 5.9
-
 install:
+  - set QT_VER=5.9
+  - set PYQT_VER=5.9
   - if not exist %QT_DIR%\bin\Qt5Core.dll (
       echo "No cache found, building qt" &
-      call ./ci_tools/build_install_qt.bat
+      call ci_tools\build_install_qt.bat
     ) else (
       echo "Found existing cache in %QT_DIR%" &
       dir %QT_DIR%

@@ -4,8 +4,8 @@ environment:
     # without this flag, debugging is a nightmare :)
     APPVEYOR_SAVE_CACHE_ON_ERROR: true
   matrix:
-      QT_VER: 5.9
-      PYQT_VER: 5.9
+      - QT_VER: 5.9
+      - PYQT_VER: 5.9
 
 install:
   - if not exist %QT_DIR%\bin\Qt5Core.dll (

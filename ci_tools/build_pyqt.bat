@@ -49,11 +49,12 @@ patch ./configure.py < ../ci_tools/pyqt%PYQT_VER_MAJOR%-%PYQT_VER%-configure.py.
 
 echo "(e) Configuring PyQt in %CD%"
 call "C:\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\Tools\vsvars32.bat"
+dir C:\Qt\5.10\mingw53_32\bin\
 python configure.py --qmake C:\Qt\5.10\mingw53_32\bin\qmake.exe --no-python-dbus --no-qml-plugin --no-qsci-api --no-tools --confirm-license --disable QtHelp --disable QtMultimedia --disable QtMultimediaWidgets --disable QtNetwork --disable QtOpenGL --disable QtPrintSupport --disable QtQml --disable QtQuick --disable QtSql --disable QtSvg --disable QtTest --disable QtWebKit --disable QtWebKitWidgets --disable QtXml --disable QtXmlPatterns --disable QtDesigner --disable QAxContainer --disable QtDBus --disable QtWebSockets --disable QtWebChannel --disable QtNfc --disable QtBluetooth --disable QtX11Extras --disable QtQuickWidgets --disable _QOpenGLFunctions_2_0 --disable _QOpenGLFunctions_2_1 --disable _QOpenGLFunctions_4_1_Core --spec=win32-g++ --verbose
 REM --qmake $HOME/miniconda/bin/qmake --sip $HOME/miniconda/bin/sip --verbose
 
 echo "(f) Compiling PyQt in %CD%"
-mingw32-make
+nmake
 
 echo "(g) Installing PyQt"
 nmake install

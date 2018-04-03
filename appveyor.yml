@@ -1,0 +1,19 @@
+build: false
+environment:
+  matrix:
+    - PYTHON: "C:\\Python27"
+      PyQt: https://downloads.sourceforge.net/project/pyqt/PyQt5/PyQt-5.6/PyQt5-5.6-gpl-Py3.5-Qt5.6.0-x32-2.exe"
+init:
+  - "ECHO %PYTHON%"
+  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
+install:
+  - REG ADD HKCU\Software\Python\PythonCore\2.7\InstallPath /f /ve /t REG_SZ /d %PYTHON%
+  - ps: (new-object net.webclient).DownloadFile($env:PyQt, "C:\install-PyQt5.exe")
+  - ps: Start-Process -FilePath C:\install-PyQt5.exe -ArgumentList "/S" -Wait -Passthru
+  - "python -c \'from PyQt5 import QtCore\'"
+  - "pip install pydh twisted pycryptodome pycryptodomex nclib https://github.com/bjones1/pyinstaller/archive/pyqt5_fix.zip"
+test_script:
+  - "python make.py build all"
+
+artifacts:
+  - path: bin/win32/*

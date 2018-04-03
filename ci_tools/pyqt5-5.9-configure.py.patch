@@ -39,5 +39,3 @@ index b24866d..eda0b1a 100644
 +        f.write(mkfile)
 +
 +
- def run_make(target_config, verbose, exe, makefile_name):
-

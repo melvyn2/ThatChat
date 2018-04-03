@@ -8,7 +8,7 @@ from PyInstaller.__main__ import run as freeze
 
 def clean():
 	delete('build')
-	delete('bin')
+	delete('bin' + sys.platform)
 	for r, d, f in os.walk('.'):
 		for t in fnmatch.filter(f, '*.pyc'):
 			delete(os.path.join(r, t))
@@ -46,7 +46,7 @@ if action == 'build':
 		else:
 			print('Usage: {0} build <program>\nWhere progam is \'client\', \'server\', or \'all\'.'.format(sys.argv[0]))
 			sys.exit()
-		print('You can find your built executable(s) in the \'bin\' directory.')
+		print('You can find your built executable(s) in the \'bin' + os.sep + sys.platform +'\' directory.')
 	except IndexError:
 		print('Usage: {0} build <program>\nWhere progam is \'client\', \'server\', or \'all\'.'.format(sys.argv[0]))
 

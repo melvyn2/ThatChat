@@ -14,10 +14,11 @@ install:
   - ps: Expand-Archive "C:\PyQt5.zip" "C:\PyQt5"
   - ps: Expand-Archive "C:\SIP.zip" "C:\SIP"
   - cd C:\SIP
+  - dir
   - python configure.py
   - C:\Qt\5.10.1\msvc2017_64\bin\qtenv2.bat
   - cd C:\SIP
-  - C:\Program\ Files\ (x86)\Microsoft\ Visual\ Studio 14.0\VC\vcvarsall.bat
+  - "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat"
   - nmake
   - nmake install
   - cd C:\PyQt5

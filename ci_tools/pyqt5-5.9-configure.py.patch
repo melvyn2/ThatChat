@@ -37,3 +37,8 @@ index b24866d..eda0b1a 100644
 +    mkfile = mkfile.replace('CXXFLAGS      = -pipe', 'CXXFLAGS      = -pipe -D_hypot=hypot')
 +    with open(file_name, 'w') as f:
 +        f.write(mkfile)
++
++
+ def run_make(target_config, verbose, exe, makefile_name):
+     """ Run make against a makefile to create an executable.  target_config is
+     the target configuration.  verbose is set if the output is to be displayed.

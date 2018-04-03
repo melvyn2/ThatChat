@@ -2,14 +2,8 @@ install:
   - set QT_VER=5.9
   - set PYQT_VER=5.9
   - cd C:\project\pychat
-  - if not exist %QT_DIR%\bin\Qt5Core.dll (
-      echo "No cache found, building qt" &
-      C:\project\pychat\ci_tools\build_install_qt.bat
-    ) else (
-      echo "Found existing cache in %QT_DIR%" &
-      dir %QT_DIR%
-    )
-  - echo "Adding Qt to PATH" & set PATH=%QT_DIR%/bin;%PATH%
+  - dir
+  - C:\project\pychat\ci_tools\build_install_qt.bat
 
 build: off
 

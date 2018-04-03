@@ -2,7 +2,7 @@ install:
   - set QT_VER=5.9
   - set PYQT_VER=5.9
   - dir
-  - C:\project\pychat\ci_tools\build_install_qt.bat
+  - ci_tools\build_install_qt.bat
 
 build: off
 

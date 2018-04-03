@@ -5,6 +5,6 @@ build:
   commands:
     - pacman -Sy
     - pacman --needed -S bash pacman pacman-mirrors msys2-runtime
-    - pacman --needed -S mingw64/mingw-w64-python2-pyqt5
+    - pacman --needed -S mingw/mingw-w64-python2-pyqt5
     - pip install pydh twisted pycryptodome pycryptodomex nclib https://github.com/bjones1/pyinstaller/archive/pyqt5_fix.zip
     - python make.py build all

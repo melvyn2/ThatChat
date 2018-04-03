@@ -15,7 +15,7 @@ install:
   - ps: Expand-Archive "C:\SIP.zip" "C:\SIP"
   - cd C:\SIP\sip-4.19.8
   - python configure.py
-  - dir C:\Qt\5.10.1\msvc2017_64\bin\ #qtenv2.bat
+  - dir C:\Qt\5.10.1\msvc2017_64\ #bin\qtenv2.bat
   - cd C:\SIP\sip-4.19.8
   #- "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat"
   - nmake
@@ -26,7 +26,7 @@ install:
   - nmake install
   - "python -c \"from PyQt5 import QtCore\""
   - "pip install pydh twisted pycryptodome pycryptodomex nclib https://github.com/bjones1/pyinstaller/archive/pyqt5_fix.zip"
-  - cd C:\projects\PyChat
+  - cd C:\projects\pychat
 test_script:
   - "python make.py build all"
 

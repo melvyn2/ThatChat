@@ -4,7 +4,7 @@ install:
   - cd C:\project\pychat
   - if not exist %QT_DIR%\bin\Qt5Core.dll (
       echo "No cache found, building qt" &
-      call C:\project\pychat\ci_tools\build_install_qt.bat
+      C:\project\pychat\ci_tools\build_install_qt.bat
     ) else (
       echo "Found existing cache in %QT_DIR%" &
       dir %QT_DIR%

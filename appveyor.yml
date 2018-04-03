@@ -17,7 +17,9 @@ install:
   - python configure.py
   - C:\Qt\5.10.1\msvc2015_64\bin\qtenv2.bat
   - cd C:\SIP\sip-4.19.8
-  - dir "C:\Program Files (x86)\Microsoft Visual Studio 14.0"
+  - cd "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools"
+  - vsvars32.bat
+  - cd C:\SIP\sip-4.19.8
   - nmake
   - nmake install
   - cd C:\PyQt5\PyQt-5.10.1

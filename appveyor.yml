@@ -17,7 +17,7 @@ install:
   - python configure.py
   - C:\Qt\5.10.1\msvc2017_64\bin\qtenv2.bat
   - cd C:\SIP
-  - "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat"
+  - C:\Program\ Files\ (x86)\Microsoft\ Visual\ Studio 14.0\VC\vcvarsall.bat
   - nmake
   - nmake install
   - cd C:\PyQt5

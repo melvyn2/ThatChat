@@ -1,9 +1,9 @@
 install:
-  - set QT_VER=5.9
-  - set PYQT_VER=5.9
+#  - set QT_VER=5.9
+#  - set PYQT_VER=5.9
 #  - dir /s /b C:\Qt
-  - call ci_tools\build_pyqt.bat
-  - pip install pydh twisted pycryptodome pycryptodomex nclib https://github.com/bjones1/pyinstaller/archive/pyqt5_fix.zip
+#  - call ci_tools\build_pyqt.bat
+#  - pip install pydh twisted pycryptodome pycryptodomex nclib https://github.com/bjones1/pyinstaller/archive/pyqt5_fix.zip
 
 build: off
 

@@ -4,7 +4,7 @@ import os
 import shutil
 import sys
 import fnmatch
-from PyInstaller.__main__ import run as freeze
+
 
 def clean():
 	delete('build')
@@ -29,6 +29,7 @@ action = sys.argv[1].lower() if len(sys.argv) >= 2 else None
 
 if action == 'build':
 	try:
+		from PyInstaller.__main__ import run as freeze
 		if sys.argv[2].lower() == 'client':
 			clean()
 			freeze(['--distpath', os.path.join('bin', sys.platform), '--workpath', os.path.join('build', sys.platform),
@@ -46,9 +47,11 @@ if action == 'build':
 		else:
 			print('Usage: {0} build <program>\nWhere progam is \'client\', \'server\', or \'all\'.'.format(sys.argv[0]))
 			sys.exit()
-		print('You can find your built executable(s) in the \'bin' + os.sep + sys.platform +'\' directory.')
+		print('You can find your built executable(s) in the \'bin' + os.sep + sys.platform + '\' directory.')
 	except IndexError:
 		print('Usage: {0} build <program>\nWhere progam is \'client\', \'server\', or \'all\'.'.format(sys.argv[0]))
+	except ImportError:
+		print('PyInstaller is missing.')
 
 elif action == 'install':
 	try:
@@ -86,7 +89,7 @@ elif action == 'install':
 				print('You must build the program first, like so:\n    {0} build'.format(sys.argv[0]))
 				sys.exit()
 			if len(sys.argv) == 4:
-				installdir = os.path.expanduser(os.path.join('~' if sys.argv[3] == '--user' else
+				installdir = os.path.expanduser(os.path.join('~' if '--user' in sys.argv[3] else
 					(os.sep, 'usr', 'local'), 'bin'))
 			if len(sys.argv) == 5:
 				installdir = os.path.expanduser(os.path.join(sys.argv[4] if sys.argv[3] == '--installdir' else
@@ -127,5 +130,44 @@ elif action == 'run':
 elif action == 'clean':
 	clean()
 
+elif action == 'deps':
+	missing = []
+	deps = ['Cryptodomex', 'PyQt5', 'nclib', 'PyInstaller', 'Twisted']
+	import importlib
+	for i in deps:
+		try:
+			importlib.import_module('Cryptodome' if i == 'Cryptodomex' else ('twisted' if i == 'Twisted' else i))
+		except ImportError:
+			missing.append(i)
+	if len(missing) > 0:
+		print('You are missing the following: ' + ', '.join(missing))
+		if '-y' in sys.argv or raw_input('Install them or it? (y/n) ') == 'y':
+			import pip
+			to_install = ['https://github.com/bjones1/pyinstaller/archive/pyqt5_fix_cleaned.zip' if x == 'PyInstaller'
+				else ('' if x == 'PyQt5' else x) for x in missing]
+			pip.main(['install'] + to_install)
+			if 'PyQt5' in missing:
+				print('PyQt5 must still be installed manually.')
+			sys.exit(0)
+		else:
+			print('Aborted.')
+			sys.exit(0)
+	try:
+		import PyInstaller
+		if PyInstaller.__version__[:8] != '3.4.dev0':
+			print('Your version of PyInstaller isn\'t patched for PyQt5 or isn\'t latest one.')
+			if '-y' in sys.argv or raw_input('Fix it? (y/n) ') == 'y':
+				import pip
+				pip.main(['uninstall', 'PyInstaller', '-y'])
+				pip.main(['install', 'https://github.com/bjones1/pyinstaller/archive/pyqt5_fix_cleaned.zip'])
+				sys.exit(0)
+			else:
+				print('Aborted.')
+				sys.exit(0)
+	except IndexError:
+		pass
+	print('You have all dependencies installed!')
+
 else:
-	print 'Invalid option\nPossible options: build, install, install --user, install --installdir <installdir> run, clean'
+	print('Invalid option\nPossible options: build, install, install --user, install --installdir <installdir> run, clean,'
+		' deps [-y]')

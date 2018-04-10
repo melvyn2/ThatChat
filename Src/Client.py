@@ -2,15 +2,19 @@
 
 from PyQt5 import QtCore, QtWidgets
 import sys
+import yaml
 from nclib import Netcat, NetcatError
 import pyDH
-from Cryptography import crypto
-from PyUIs import MainWindow, ServerDialog, UsernameDialog
+from Cryptography import aes, rsa
+from PyUIs import *
 
-def sendMesg(netcat, linedit, aescipher, header='MESG'):
+
+def send_mesg(netcat, linedit, aescipher, header='MESG'):
 	netcat.send('/' + header + aescipher.encrypt(str(linedit.text().encode('utf-8'))) + header + '/\r\n')
 	linedit.clear()
 
+
+# noinspection PyArgumentList
 class Window(QtWidgets.QMainWindow):
 	resized = QtCore.pyqtSignal()
 
@@ -21,14 +25,16 @@ class Window(QtWidgets.QMainWindow):
 		self.resized.emit()
 		return super(Window, self).resizeEvent(event)
 
+
 def resize(ui, window):
 	ui.textEdit.resize(window.width() - 41, window.height() - (ui.lineEdit.height() + 67))
 	ui.lineEdit.move(ui.lineEdit.x(), ui.textEdit.y() + 7 + ui.textEdit.height())
 	ui.lineEdit.resize(window.width() - (ui.sendButton.width() + 40), 91)
 	ui.sendButton.move((ui.lineEdit.width() + ui.lineEdit.x() + 5), ui.textEdit.y() + 3 + ui.textEdit.height())
 
-class RecvThread(QtCore.QThread):
 
+# noinspection PyArgumentList
+class RecvThread(QtCore.QThread):
 	toappend = QtCore.pyqtSignal(str)
 
 	def __init__(self, netcat, aescipher):
@@ -53,12 +59,14 @@ class RecvThread(QtCore.QThread):
 	def stop(self):
 		self.terminate()
 
-def execAndClose(run, thread):
+
+def exec_close(run, thread):
 	exitcode = run.exec_()
 	thread.stop()
 	return exitcode
 
 
+# noinspection PyArgumentList
 def main():
 	app = QtWidgets.QApplication(sys.argv)
 	server_dialog = QtWidgets.QDialog()
@@ -76,16 +84,18 @@ def main():
 	while True:
 		server_dialog.exec_()
 		try:
-			port = int(server_ui.lineEdit_2.text())
+			port = int(server_ui.lineEdit_2.text() if server_ui.lineEdit_2.text() != ''
+				else server_ui.lineEdit_2.placeholderText())
 		except ValueError:
-			server_ui.label_3.setText('Invalid Port!')
+			server_ui.label_3.setText('Invalid Port1')
 			continue
 		if port > 65535:
-			server_ui.label_3.setText('Invalid Port!')
+			server_ui.label_3.setText('Invalid Port!2')
 			continue
-		host = server_ui.lineEdit.text()
+		host = server_ui.lineEdit.text() if server_ui.lineEdit.text() != ''\
+			else server_ui.lineEdit.placeholderText()
 		try:
-			nc = Netcat((host, port), verbose=False)
+			nc = Netcat((host, port), verbose=True)
 		except NetcatError:
 			server_ui.label_3.setText('Could not Connect!')
 			continue
@@ -97,18 +107,53 @@ def main():
 			break
 	print('Server acknowledged connection.')
 	nc.send('/REDY\r\n')
+
+	buf = nc.recv_until('\r\n').replace('\r\n', '')[5:-5].decode('hex')
+	sig_db = yaml.load(open('signature_db.yml').read())
+	if host in sig_db.keys():
+		if str(sig_db[host]) == buf:
+			print('Public keys match.')
+		else:
+			print('Public keys don\'t match.')
+			signature_warn_dialog = QtWidgets.QDialog()
+			signature_warn_ui = SignatureWarnDialog.Ui_Dialog()
+			signature_warn_ui.setupUi(signature_warn_dialog)
+			signature_warn_ui.buttonBox.rejected.connect(sys.exit)
+			signature_warn_dialog.setFixedSize(signature_warn_dialog.size())
+			signature_warn_ui.label_3.setText(host + ':' + str(port))
+			signature_warn_dialog.exec_()
+			try:
+				del sig_db[host]
+			except KeyError:
+				pass
+			sig_db[host] = buf
+			open('signature_db.yml', 'w').write(yaml.dump(sig_db))
+	else:
+		print('Don\'t have public key for this server.')
+		sig_db[host] = buf
+		open('signature_db.yml', 'w').write(yaml.dump(sig_db))
+	pubkey = rsa.import_pem_key(sig_db[host])
+	nc.send('/PKOK\r\n')
+
 	dh = pyDH.DiffieHellman()
 	dh_pubkey = dh.gen_public_key()
 	buf = long(nc.recv_until('\r\n').replace('\r\n', '')[5:-5])
+	sig = nc.recv_until('\r\n').replace('\r\n', '')[5:-5]
+	print(buf)
+	print(sig)
+	if rsa.Verification(pubkey).verify(str(buf), sig.decode('hex')):
+		print('DH signatures match.')
+	else:
+		print('DH signature invalid.')
 	dh_sharedkey = dh.gen_shared_key(buf)
-	aes = crypto.AESCipher(dh_sharedkey)
+	encryption = aes.AESCipher(dh_sharedkey)
 	nc.send('/DHPK' + str(dh_pubkey) + 'DHPK/\r\n')
 	print('Completed DH handshake.')
 
 	while True:
 		username_dialog.exec_()
 		try:
-			nc.send('/UNST' + aes.encrypt(str(username_ui.lineEdit.text())) + 'UNST/\r\n')
+			nc.send('/UNST' + encryption.encrypt(str(username_ui.lineEdit.text())) + 'UNST/\r\n')
 		except UnicodeEncodeError:
 			username_ui.label_2.setText('Unicode is not supported in usernames!')
 			continue
@@ -124,15 +169,15 @@ def main():
 
 	print('Username is confirmed.')
 	main_ui.setupUi(chat_client_window)
-	main_ui.sendButton.clicked.connect(lambda: sendMesg(nc, main_ui.lineEdit, aes))
-	main_ui.lineEdit.returnPressed.connect(lambda: sendMesg(nc, main_ui.lineEdit, aes))
+	main_ui.sendButton.clicked.connect(lambda: send_mesg(nc, main_ui.lineEdit, encryption))
+	main_ui.lineEdit.returnPressed.connect(lambda: send_mesg(nc, main_ui.lineEdit, encryption))
 	chat_client_window.resized.connect(lambda: resize(main_ui, chat_client_window))
 	chat_client_window.setWindowTitle('PyChat Client - {0}:{1}'.format(host, port))
 	chat_client_window.show()
-	recieve_thread = RecvThread(nc, aes)
+	recieve_thread = RecvThread(nc, encryption)
 	recieve_thread.toappend.connect(main_ui.textEdit.append)
 	recieve_thread.start()
-	sys.exit(execAndClose(app, recieve_thread))
+	sys.exit(exec_close(app, recieve_thread))
 
 
 if __name__ == '__main__':

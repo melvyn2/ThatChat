@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'serverDialog.ui'
+# Form implementation generated from reading ui file '/Users/melvyn/PyChat/Src/UIs/ServerDialog.ui'
 #
 # Created by: PyQt5 UI code generator 5.10.1
 #
@@ -22,6 +22,7 @@ class Ui_Dialog(object):
         self.lineEdit = QtWidgets.QLineEdit(Dialog)
         self.lineEdit.setGeometry(QtCore.QRect(50, 45, 271, 21))
         self.lineEdit.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.lineEdit.setText("")
         self.lineEdit.setMaxLength(50)
         self.lineEdit.setDragEnabled(False)
         self.lineEdit.setObjectName("lineEdit")
@@ -33,6 +34,7 @@ class Ui_Dialog(object):
         self.label_2.setObjectName("label_2")
         self.lineEdit_2 = QtWidgets.QLineEdit(Dialog)
         self.lineEdit_2.setGeometry(QtCore.QRect(50, 90, 271, 21))
+        self.lineEdit_2.setText("")
         self.lineEdit_2.setMaxLength(5)
         self.lineEdit_2.setObjectName("lineEdit_2")
         self.label_3 = QtWidgets.QLabel(Dialog)
@@ -50,8 +52,8 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "PyChat Client - Username"))
-        self.lineEdit.setText(_translate("Dialog", "127.0.0.1"))
+        self.lineEdit.setPlaceholderText(_translate("Dialog", "127.0.0.1"))
         self.label.setText(_translate("Dialog", "Enter the server\'s hostname/IPv4 address:"))
         self.label_2.setText(_translate("Dialog", "Enter the port:"))
-        self.lineEdit_2.setText(_translate("Dialog", "7000"))
+        self.lineEdit_2.setPlaceholderText(_translate("Dialog", "7000"))
 

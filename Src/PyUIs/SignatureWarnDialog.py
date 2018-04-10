@@ -49,7 +49,7 @@ class Ui_Dialog(object):
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
         self.label.setText(_translate("Dialog", "WARNING"))
         self.label_2.setText(_translate("Dialog", "The Signature of the server at:"))
-        self.label_3.setText(_translate("Dialog", "127.0.0.1:7000"))
+        self.label_3.setText(_translate("Dialog", "host"))
         self.label_4.setText(_translate("Dialog", "Has changed. The authenticity of the server and the privacy of your discussions may be at risk. Contact the server administrator for more information."))
         self.label_5.setText(_translate("Dialog", "Proceed to connect?"))
 

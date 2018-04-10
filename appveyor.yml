@@ -1,19 +1,8 @@
 artifacts:
   - path: 'bin\win32\*'
-deploy:
-  release: pychat-v$(appveyor_build_version)
-  provider: GitHub
-  auth_token:
-    secure: "/I7CCV5RADMxVOyxKNxD+uw22cPMGwyRs170w27CUpkP1Iw7Yv3b6MgneyAsXYMP"
-  artifact: 'bin\win32\*'
-  draft: false
-  prerelease: true
-  on:
-    branch: master
-    appveyor_repo_tag: true
 
 install:
-  - pip install pydh twisted pycryptodome pycryptodomex nclib https://github.com/bjones1/pyinstaller/archive/pyqt5_fix.zip
+  - pip install yaml pydh twisted pycryptodomex nclib https://github.com/bjones1/pyinstaller/archive/pyqt5_fix_cleaned.zip
 
 build: off
 

@@ -7,7 +7,7 @@ Requirements
 ------------
 • [Python 2.7](https://www.python.org/)
 
-• [Pycryptodome/Pycryptodomex](https://github.com/Legrandin/pycryptodome)
+• [PycryptodomeX](https://github.com/Legrandin/pycryptodome) : `pip install pycryptodomex`
 
 • [PyQt5](https://www.riverbankcomputing.com/software/pyqt/download5) for the client
 
@@ -15,7 +15,7 @@ Requirements
 
 • [pyDH](https://github.com/amiralis/pyDH)
 
-• [PyInstaller (with PyQt5 Fix)](https://github.com/pyinstaller/pyinstaller/pull/3233#issuecomment-362094587) for building
+• PyInstaller (with PyQt5 Fix) : `pip install https://github.com/bjones1/pyinstaller/archive/pyqt5_fix_cleaned.zip` for building
 
 • [Twisted](http://twistedmatrix.com/)
 

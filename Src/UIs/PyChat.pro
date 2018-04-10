@@ -15,4 +15,5 @@ FORMS    += MainWindow.ui \
     ServerDialog.ui \
     UsernameDialog.ui \
     SignatureChangeDialog.ui \
-    SignatureWarnDialog.ui
+    SignatureWarnDialog.ui \
+    SignatureInvalidDialog.ui

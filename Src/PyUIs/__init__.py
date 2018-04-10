@@ -1,4 +1,5 @@
 import MainWindow
 import ServerDialog
 import SignatureWarnDialog
+import SignatureInvalidDialog
 import UsernameDialog

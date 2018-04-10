@@ -145,6 +145,12 @@ def main():
 		print('DH signatures match.')
 	else:
 		print('DH signature invalid.')
+		signature_invalid_dialog = QtWidgets.QDialog()
+		signature_invalid_ui = SignatureInvalidDialog.Ui_Dialog()
+		signature_invalid_ui.setupUi(signature_invalid_dialog)
+		signature_invalid_ui.buttonBox.rejected.connect(sys.exit)
+		signature_invalid_dialog.setFixedSize(signature_invalid_dialog.size())
+		signature_invalid_dialog.exec_()
 	dh_sharedkey = dh.gen_shared_key(buf)
 	encryption = aes.AESCipher(dh_sharedkey)
 	nc.send('/DHPK' + str(dh_pubkey) + 'DHPK/\r\n')

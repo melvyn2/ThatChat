@@ -45,5 +45,5 @@ addons:
       - qtchooser
       - qt5-qmake
       - qt5-default
-install: pip install yaml pydh twisted pycryptodomex nclib https://github.com/bjones1/pyinstaller/archive/pyqt5_fix_cleaned.zip
+install: pip install pyyaml pydh twisted pycryptodomex nclib https://github.com/bjones1/pyinstaller/archive/pyqt5_fix_cleaned.zip
 script: python make.py build all

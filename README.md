@@ -1,5 +1,7 @@
-# ThatChat - Encrypted Python Chat [![Build Status - Travis CI](https://travis-ci.org/melvyn2/ThatChat.svg?branch=master)](https://travis-ci.org/melvyn2/ThatChat) [![Build Status - Appveyor](https://ci.appveyor.com/api/projects/status/github/melvyn2/pychat?svg=true)](https://ci.appveyor.com/api/projects/status/github/melvyn2/pychat?svg=true)
-
+ThatChat - Encrypted Python Chat
+================================
+[![Build Status - Travis CI](https://travis-ci.org/melvyn2/ThatChat.svg?branch=master)](https://travis-ci.org/melvyn2/ThatChat) [![Build Status - Appveyor](https://ci.appveyor.com/api/projects/status/github/melvyn2/thatchat?svg=true)](https://ci.appveyor.com/project/melvyn2/thatchat)
+---
 This a small python project for encrypted chat.
 
 
@@ -22,7 +24,7 @@ Requirements
 
 Building
 --------
-```
+```bash
 git clone https://github.com/melvyn2/ThatChat.git
 cd ThatChat
 ./make.py build all

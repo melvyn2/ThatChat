@@ -133,11 +133,13 @@ elif action == 'clean':
 
 elif action == 'deps':
 	missing = []
-	deps = ['Cryptodomex', 'PyQt5', 'nclib', 'PyInstaller', 'Twisted']
+	deps = ['pycryptodomex', 'PyQt5', 'nclib', 'PyInstaller', 'twisted', 'pyyaml', 'pyDH',
+				'urllib3', 'cryptography', 'idna', 'certifi', 'PyOpenSSL', 'service_identity']
 	import importlib
 	for i in deps:
 		try:
-			importlib.import_module('Cryptodome' if i == 'Cryptodomex' else ('twisted' if i == 'Twisted' else i))
+			importlib.import_module('Cryptodome' if i == 'pycryptodomex' else ('yaml' if i == 'pyyaml' else
+				('OpenSSL' if i == 'PyOpenSSL' else i)))
 		except ImportError:
 			missing.append(i)
 	if len(missing) > 0:

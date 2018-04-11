@@ -119,8 +119,10 @@ def main():
 		import urllib3.contrib.pyopenssl
 		urllib3.contrib.pyopenssl.inject_into_urllib3()
 		try:
-			open(sig_db_path, 'w').write(urllib3.PoolManager(cert_reqs='CERT_REQUIRED', ca_certs=certifi.where())
-				.request('GET', 'https://raw.githubusercontent.com/melvyn2/ThatChat/master/Src/signature_db.yml'))
+			f = open(sig_db_path, 'w')
+			f.write(urllib3.PoolManager(cert_reqs='CERT_REQUIRED', ca_certs=certifi.where())
+				.request('GET', 'https://raw.githubusercontent.com/melvyn2/ThatChat/master/Src/signature_db.yml').data)
+			f.close()
 			sig_db = yaml.load(open(sig_db_path).read())
 		except urllib3.exceptions.MaxRetryError:
 			sig_db = {}

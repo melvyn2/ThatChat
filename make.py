@@ -7,8 +7,9 @@ import fnmatch
 
 
 def clean():
-	delete('build')
-	delete('bin')
+	delete(os.path.join('build', sys.platform))
+	delete(os.path.join('bin', sys.platform))
+
 	for r, d, f in os.walk('.'):
 		for t in fnmatch.filter(f, '*.pyc'):
 			delete(os.path.join(r, t))

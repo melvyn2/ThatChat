@@ -2,6 +2,7 @@
 
 from PyQt5 import QtCore, QtWidgets
 import sys
+import os
 import yaml
 from nclib import Netcat, NetcatError
 import pyDH
@@ -105,7 +106,24 @@ def main():
 	nc.send('/REDY\r\n')
 
 	buf = nc.recv_until('\r\n').replace('\r\n', '')[5:-5].decode('hex')
-	sig_db = yaml.load(open('signature_db.yml').read())
+	if getattr(sys, 'frozen', False):
+		sig_db_path = os.path.join((os.getenv('LOCALAPPDATA') if sys.platform in ['win32', 'windows']
+			else os.path.expanduser('~')), '.PyChatSignatureDB.yml')
+	else:
+		sig_db_path = 'signature_db.yml'
+	try:
+		sig_db = yaml.load(open(sig_db_path).read())
+	except IOError:
+		import certifi
+		import urllib3
+		import urllib3.contrib.pyopenssl
+		urllib3.contrib.pyopenssl.inject_into_urllib3()
+		try:
+			open(sig_db_path, 'w').write(urllib3.PoolManager(cert_reqs='CERT_REQUIRED', ca_certs=certifi.where())
+				.request('GET', 'https://raw.githubusercontent.com/melvyn2/ThatChat/master/Src/signature_db.yml'))
+			sig_db = yaml.load(open(sig_db_path).read())
+		except urllib3.exceptions.MaxRetryError:
+			sig_db = {}
 	if host in sig_db.keys():
 		if str(sig_db[host]) == buf:
 			print('Public keys match.')
@@ -123,11 +141,11 @@ def main():
 			except KeyError:
 				pass
 			sig_db[host] = buf
-			open('signature_db.yml', 'w').write(yaml.dump(sig_db))
+			open(sig_db_path, 'w').write(yaml.dump(sig_db))
 	else:
 		print('Don\'t have public key for this server.')
 		sig_db[host] = buf
-		open('signature_db.yml', 'w').write(yaml.dump(sig_db))
+		open(sig_db_path, 'w').write(yaml.dump(sig_db))
 	pubkey = rsa.import_pem_key(sig_db[host])
 	nc.send('/PKOK\r\n')
 
@@ -135,8 +153,6 @@ def main():
 	dh_pubkey = dh.gen_public_key()
 	buf = long(nc.recv_until('\r\n').replace('\r\n', '')[5:-5])
 	sig = nc.recv_until('\r\n').replace('\r\n', '')[5:-5]
-	print(buf)
-	print(sig)
 	if rsa.Verification(pubkey).verify(str(buf), sig.decode('hex')):
 		print('DH signatures match.')
 	else:

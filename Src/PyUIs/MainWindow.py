@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/Users/melvyn/PyChat/Src/UIs/MainWindow.ui'
+# Form implementation generated from reading ui file '/Users/melvyn/ThatChat/Src/UIs/MainWindow.ui'
 #
 # Created by: PyQt5 UI code generator 5.10.1
 #
@@ -31,13 +31,6 @@ class Ui_MainWindow(object):
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 472, 22))
-        self.menubar.setObjectName("menubar")
-        self.menuPyChat_Client = QtWidgets.QMenu(self.menubar)
-        self.menuPyChat_Client.setObjectName("menuPyChat_Client")
-        MainWindow.setMenuBar(self.menubar)
-        self.menubar.addAction(self.menuPyChat_Client.menuAction())
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -47,5 +40,4 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "ChatClientWindow"))
         self.sendButton.setText(_translate("MainWindow", "Send!"))
         self.lineEdit.setPlaceholderText(_translate("MainWindow", "Type your message here..."))
-        self.menuPyChat_Client.setTitle(_translate("MainWindow", "PyChat Client"))
 

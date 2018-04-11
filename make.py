@@ -8,7 +8,7 @@ import fnmatch
 
 def clean():
 	delete('build')
-	delete('bin' + sys.platform)
+	delete('bin')
 	for r, d, f in os.walk('.'):
 		for t in fnmatch.filter(f, '*.pyc'):
 			delete(os.path.join(r, t))
@@ -33,17 +33,17 @@ if action == 'build':
 		if sys.argv[2].lower() == 'client':
 			clean()
 			freeze(['--distpath', os.path.join('bin', sys.platform), '--workpath', os.path.join('build', sys.platform),
-				'PyChat Client.spec'])
+				'ThatChat Client.spec'])
 		elif sys.argv[2].lower() == 'server':
 			clean()
 			freeze(['--distpath', os.path.join('bin', sys.platform), '--workpath', os.path.join('build', sys.platform),
-				'PyChat Server.spec'])
+				'ThatChat Server.spec'])
 		elif sys.argv[2].lower() == 'all':
 			clean()
 			freeze(['--distpath', os.path.join('bin', sys.platform), '--workpath', os.path.join('build', sys.platform),
-				'PyChat Client.spec'])
+				'ThatChat Client.spec'])
 			freeze(['--distpath', os.path.join('bin', sys.platform), '--workpath', os.path.join('build', sys.platform),
-				'PyChat Server.spec'])
+				'ThatChat Server.spec'])
 		else:
 			print('Usage: {0} build <program>\nWhere progam is \'client\', \'server\', or \'all\'.'.format(sys.argv[0]))
 			sys.exit()
@@ -62,30 +62,30 @@ elif action == 'install':
 			print('Install-able programs: \'client\'.')
 			sys.exit()
 		if sys.platform == 'darwin':
-			if not os.path.isdir(os.path.join('dist', 'PyChat Client.app')):
+			if not os.path.isdir(os.path.join('dist', 'ThatChat Client.app')):
 				print('You must build the program first, like so:\n    {0} build <program>'.format(sys.argv[0]))
 				sys.exit()
 			if len(sys.argv) == 4:
 				installdir = os.path.expanduser(os.path.join(('~' if sys.argv[3] == '--user' else os.sep),
-					'Applications', 'PyChat Client.app'))
+					'Applications', 'ThatChat Client.app'))
 			elif len(sys.argv) == 5:
 				installdir = os.path.expanduser(os.path.join((sys.argv[4] if sys.argv[3] == '--installdir'
-					else (os.sep, 'Applications')), 'PyChat Client.app'))
+					else (os.sep, 'Applications')), 'ThatChat Client.app'))
 			else:
-				installdir = os.path.join(os.sep, 'Applications', 'PyChat Client.app')
+				installdir = os.path.join(os.sep, 'Applications', 'ThatChat Client.app')
 			if os.path.isdir(installdir):
-				update = raw_input('You already have a copy of the PyChat client at {0}. '
+				update = raw_input('You already have a copy of the ThatChat client at {0}. '
 					'Would you like to remove it and continue? (y/n) '.format(installdir))
 				if update == 'y':
 					delete(installdir)
 				else:
 					print('Aborted.')
 					sys.exit()
-			shutil.copytree(os.path.join('dist', 'PyChat Client.app'), installdir)
-			print('The PyChat Client application bundle has been installed in the directory {0}'
-				' under the name \'PyChat Client.app\'.'.format(installdir))
+			shutil.copytree(os.path.join('dist', 'ThatChat Client.app'), installdir)
+			print('The ThatChat Client application bundle has been installed in the directory {0}'
+				' under the name \'ThatChat Client.app\'.'.format(installdir))
 		elif 'linux' in sys.platform:
-			if not os.path.isfile(os.path.join('dist', 'PyChat')):
+			if not os.path.isfile(os.path.join('dist', 'ThatChat')):
 				print('You must build the program first, like so:\n    {0} build'.format(sys.argv[0]))
 				sys.exit()
 			if len(sys.argv) == 4:
@@ -96,8 +96,8 @@ elif action == 'install':
 					(os.sep, 'usr', 'local', 'bin')))
 			else:
 				installdir = os.path.join(os.sep, 'usr', 'local', 'bin')
-			shutil.copy(os.path.join('dist', 'PyChat'), os.path.join(os.sep, 'usr', 'local', 'bin'))
-			print('The PyChat Client has been installed in the directory {0} under the name \'PyChat\'.'.format(installdir))
+			shutil.copy(os.path.join('dist', 'ThatChat'), os.path.join(os.sep, 'usr', 'local', 'bin'))
+			print('The ThatChat Client has been installed in the directory {0} under the name \'ThatChat\'.'.format(installdir))
 			if sys.argv[3] == '--user':
 				print('Make sure that \'~/bin\' is in your PATH.')
 

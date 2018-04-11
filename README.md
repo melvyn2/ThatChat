@@ -1,4 +1,4 @@
-# PyChat - Encrypted Python Chat [![Build Status - Travis CI](https://travis-ci.org/melvyn2/PyChat.svg?branch=master)](https://travis-ci.org/melvyn2/PyChat) [![Build Status - Appveyor](https://ci.appveyor.com/api/projects/status/github/melvyn2/pychat?svg=true)](https://ci.appveyor.com/api/projects/status/github/melvyn2/pychat?svg=true)
+# ThatChat - Encrypted Python Chat [![Build Status - Travis CI](https://travis-ci.org/melvyn2/ThatChat.svg?branch=master)](https://travis-ci.org/melvyn2/ThatChat) [![Build Status - Appveyor](https://ci.appveyor.com/api/projects/status/github/melvyn2/pychat?svg=true)](https://ci.appveyor.com/api/projects/status/github/melvyn2/pychat?svg=true)
 
 This a small python project for encrypted chat.
 
@@ -20,8 +20,15 @@ Requirements
 • [Twisted](http://twistedmatrix.com/)
 
 
+Building
+--------
+```
+git clone https://github.com/melvyn2/ThatChat.git
+cd ThatChat
+./make.py build all
+```
+
 Known Issues
 ------------
-Compeletly vulnerable to MITM (no authenticity checks); Server signing coming soon.
 
 PyQt5 fix for PyInstaller required for correctly building project (wont fix here). Click on the pyinstaller link and follow the instructions in the comment.

@@ -7,5 +7,5 @@ install:
 build: off
 
 test_script:
-  - cd C:\projects\pychat
+  - cd C:\projects\thatchat
   - python make.py build all

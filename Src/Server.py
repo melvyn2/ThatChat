@@ -40,9 +40,10 @@ class ChatHandler(LineReceiver):
 		self.transport.write('/HELO\r\n')
 
 	def connectionLost(self, reason):
-		for name, protocol in self.users.iteritems():
+		for protocol in self.users.values():
 			if protocol != self:
-				self.send_msg(self.name, 'DSCT')
+				protocol.send_msg('<span style=\'color:#40FF00;\' >' + self.name + '<span style=\'color:#000000;\' > '
+					+ ' disconnected.')
 		if self.name in self.users:
 			del self.users[self.name]
 
@@ -78,7 +79,8 @@ class ChatHandler(LineReceiver):
 				self.users[username] = self
 				for name, protocol in self.users.iteritems():
 					if protocol != self:
-						protocol.send_msg(self.name, 'UNJD')
+						protocol.send_msg('<span style=\'color:#40FF00;\' >' + self.name + '<span style=\'color:#000000;\' > '
+					+ ' joined.')
 				self.state = 4
 		elif self.state == 4:
 			if line[:5] == '/MESG' and line[-5:] == 'MESG/':
@@ -87,7 +89,7 @@ class ChatHandler(LineReceiver):
 					if self.tdelay > time.localtime(time.time())[4] * 100 + time.localtime(time.time())[5] - 0.75:
 						self.send_cmd('/NSPM')
 					else:
-						for protocol in self.users.itervalues():
+						for protocol in self.users.values():
 							protocol.send_msg('<span style=\'color:' + ('#0000ff' if protocol == self else '#40FF00') +
 								';\' >[{0}]<span style=\'color:#000000;\' > {1}'.format(self.name, dmsg))
 					self.tdelay = time.localtime(time.time())[4] * 100 + time.localtime(time.time())[5]

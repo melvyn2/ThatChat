@@ -6,7 +6,7 @@ import yaml
 from nclib import Netcat, NetcatError
 import pyDH
 from Cryptography import aes, rsa
-from PyUIs import *
+from PyUIs import MainWindow, ServerDialog, SignatureWarnDialog, SignatureInvalidDialog, UsernameDialog
 
 
 def send_mesg(netcat, linedit, aescipher, header='MESG'):
@@ -75,10 +75,6 @@ def main():
 	server_ui.setupUi(server_dialog)
 	server_ui.buttonBox.rejected.connect(sys.exit)
 	server_dialog.setFixedSize(server_dialog.size())
-	username_ui = UsernameDialog.Ui_Dialog()
-	username_ui.setupUi(username_dialog)
-	username_ui.buttonBox.rejected.connect(sys.exit)
-	username_dialog.setFixedSize(username_dialog.size())
 	chat_client_window = Window()
 	main_ui = MainWindow.Ui_MainWindow()
 	while True:
@@ -95,7 +91,7 @@ def main():
 		host = server_ui.lineEdit.text() if server_ui.lineEdit.text() != ''\
 			else server_ui.lineEdit.placeholderText()
 		try:
-			nc = Netcat((host, port), verbose=True)
+			nc = Netcat((host, port), verbose=False)
 		except NetcatError:
 			server_ui.label_3.setText('Could not Connect!')
 			continue
@@ -156,6 +152,10 @@ def main():
 	nc.send('/DHPK' + str(dh_pubkey) + 'DHPK/\r\n')
 	print('Completed DH handshake.')
 
+	username_ui = UsernameDialog.Ui_Dialog()
+	username_ui.setupUi(username_dialog)
+	username_ui.buttonBox.rejected.connect(sys.exit)
+	username_dialog.setFixedSize(username_dialog.size())
 	while True:
 		username_dialog.exec_()
 		try:
@@ -178,7 +178,7 @@ def main():
 	main_ui.sendButton.clicked.connect(lambda: send_mesg(nc, main_ui.lineEdit, encryption))
 	main_ui.lineEdit.returnPressed.connect(lambda: send_mesg(nc, main_ui.lineEdit, encryption))
 	chat_client_window.resized.connect(lambda: resize(main_ui, chat_client_window))
-	chat_client_window.setWindowTitle('PyChat Client - {0}:{1}'.format(host, port))
+	chat_client_window.setWindowTitle('ThatChat Client - {0}:{1}'.format(host, port))
 	chat_client_window.show()
 	recieve_thread = RecvThread(nc, encryption)
 	recieve_thread.toappend.connect(main_ui.textEdit.append)

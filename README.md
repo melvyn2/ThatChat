@@ -2,7 +2,7 @@ ThatChat - Encrypted Python Chat
 ================================
 [![Build Status - Travis CI](https://travis-ci.org/melvyn2/ThatChat.svg?branch=master)](https://travis-ci.org/melvyn2/ThatChat) [![Build Status - Appveyor](https://ci.appveyor.com/api/projects/status/github/melvyn2/thatchat?svg=true)](https://ci.appveyor.com/project/melvyn2/thatchat)
 ---
-This a small python project for encrypted chat.
+This a little project written in python 2 for encrypted chat.
 
 
 Requirements
@@ -27,10 +27,16 @@ Building
 ```bash
 git clone https://github.com/melvyn2/ThatChat.git
 cd ThatChat
+./make.py deps
 ./make.py build all
 ```
 
-Known Issues
-------------
+Plannned Features
+-----------------
+• Rewrite in python3
 
-PyQt5 fix for PyInstaller required for correctly building project (wont fix here). Click on the pyinstaller link and follow the instructions in the comment.
+• Password protected servers or chat rooms
+
+• Different rooms on same server
+
+• Able to be in multiple rooms at once through pyqt tabs

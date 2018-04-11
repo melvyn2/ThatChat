@@ -2,7 +2,8 @@ artifacts:
   - path: 'bin\win32\*'
 
 install:
-  - pip install urllib3[secure] _vendor.six pyyaml pydh twisted pycryptodomex nclib https://github.com/bjones1/pyinstaller/archive/pyqt5_fix_cleaned.zip
+  - pip install urllib3[secure] pyyaml pydh twisted pycryptodomex nclib https://github.com/bjones1/pyinstaller/archive/pyqt5_fix_cleaned.zip
+  - pip install --upgrade setuptools
 
 build: off
 

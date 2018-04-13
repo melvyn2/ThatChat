@@ -48,9 +48,11 @@ sudo: required
 #      - qt5-qmake
 #      - qt5-default
 install:
-  - echo 'deb http://mirror.servers.com/ubuntu/ xenial main restricted universe' | sudo tee -a /etc/apt/sources.list
-  - echo 'deb http://security.ubuntu.com/ubuntu/ xenial-security main restricted universe' | sudo tee -a /etc/apt/sources.list
+  - echo 'deb http://us.archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse' | sudo tee -a /etc/apt/sources.list
+  - echo 'deb http://security.ubuntu.com/ubuntu/ xenial-security main restricted universe multiverse' | sudo tee -a /etc/apt/sources.list
   - sudo apt-get update
+  - sudo apt-get install libmirclient9
+  - sudo apt-get install libmircommon-dev
   - sudo apt-get install libmirclient-dev
   - sudo apt-get install libegl1-mesa-dev
   - sudo apt-get install libgles2-mesa-dev

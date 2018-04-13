@@ -133,44 +133,36 @@ elif action == 'clean':
 
 elif action == 'deps':
 	missing = []
-	deps = ['pycryptodomex', 'PyQt5', 'nclib', 'PyInstaller', 'twisted', 'pyyaml', 'pyDH',
-				'urllib3', 'cryptography', 'idna', 'certifi', 'PyOpenSSL', 'service_identity']
-	import importlib
+	deps = ['pycryptodomex', 'nclib', 'pyinstaller', 'twisted', 'pyyaml', 'pydh',
+				'urllib3', 'cryptography', 'idna', 'certifi', 'pyopenssl', 'service-identity']
+	import pip
+	installed_packages = {i.key: i.version for i in pip.get_installed_distributions()}
 	for i in deps:
-		try:
-			importlib.import_module('Cryptodome' if i == 'pycryptodomex' else ('yaml' if i == 'pyyaml' else
-				('OpenSSL' if i == 'PyOpenSSL' else i)))
-		except ImportError:
+		if i not in installed_packages.keys():
 			missing.append(i)
+		if i == 'setuptools' and installed_packages[i] < '39':
+			missing.append(i)
+		elif i == 'pyinstaller' and i not in missing:
+			if installed_packages[i][:8] != '3.4.dev0':
+				missing.append(i)
 	if len(missing) > 0:
-		print('You are missing the following: ' + ', '.join(missing))
+		print('You are missing or need to upgrade/patch the following: ' + ', '.join(missing))
 		if '-y' in sys.argv or raw_input('Install them or it? (y/n) ') == 'y':
 			import pip
-			to_install = ['https://github.com/bjones1/pyinstaller/archive/pyqt5_fix_cleaned.zip' if x == 'PyInstaller'
+			to_install = ['https://github.com/bjones1/pyinstaller/archive/pyqt5_fix_cleaned.zip' if x == 'pyinstaller'
 				else ('' if x == 'PyQt5' else x) for x in missing]
-			pip.main(['install'] + to_install)
-			if 'PyQt5' in missing:
+			pip.main(['install', '--upgrade'] + to_install)
+			try:
+				import PyQt5
+			except ImportError:
 				print('PyQt5 must still be installed manually.')
 			sys.exit(0)
 		else:
 			print('Aborted.')
 			sys.exit(0)
-	try:
-		import PyInstaller
-		if PyInstaller.__version__[:8] != '3.4.dev0':
-			print('Your version of PyInstaller isn\'t patched for PyQt5 or isn\'t latest one.')
-			if '-y' in sys.argv or raw_input('Fix it? (y/n) ') == 'y':
-				import pip
-				pip.main(['uninstall', 'PyInstaller', '-y'])
-				pip.main(['install', 'https://github.com/bjones1/pyinstaller/archive/pyqt5_fix_cleaned.zip'])
-				sys.exit(0)
-			else:
-				print('Aborted.')
-				sys.exit(0)
-	except IndexError:
-		pass
+
 	print('You have all dependencies installed!')
 
 else:
-	print('Invalid option\nPossible options: build, install, install --user, install --installdir <installdir> run, clean,'
-		' deps [-y]')
+	print('Invalid option\nPossible options: build, install [--user], install --installdir <installdir>,'
+			' run <program>, clean, deps [-y]')

@@ -48,12 +48,13 @@ sudo: required
 #      - qt5-qmake
 #      - qt5-default
 install:
-  - pip install urllib3[secure] pyyaml pydh twisted pycryptodomex nclib https://github.com/bjones1/pyinstaller/archive/pyqt5_fix_cleaned.zip
-  - pip install --upgrade setuptools
   - echo 'deb http://mirror.servers.com/ubuntu/ xenial main restricted universe' | sudo tee -a /etc/apt/sources.list
   - echo 'deb http://security.ubuntu.com/ubuntu/ xenial-security main restricted universe' | sudo tee -a /etc/apt/sources.list
   - sudo apt-get update
-  - sudo apt-get install -yq python-sip libc6 libgcc1 libqt5core5a libqt5dbus5 libqt5designer5 libqt5gui5 libqt5help5 libqt5network5 libqt5printsupport5 libqt5test5 libqt5widgets5 libqt5xml5 libstdc++6 qtchooser qt5-qmake qt5-default
+  - sudo apt-get install -y qtbase5-dev
+  - sudo apt-get install -y python-sip libc6 libgcc1 libqt5core5a libqt5dbus5 libqt5designer5 libqt5gui5 libqt5help5 libqt5network5 libqt5printsupport5 libqt5test5 libqt5widgets5 libqt5xml5 libstdc++6 qtchooser qt5-qmake qt5-default
   - wget http://mirrors.kernel.org/ubuntu/pool/universe/p/pyqt5/python-pyqt5_5.5.1+dfsg-3ubuntu4_amd64.deb
   - sudo dpkg -i python-pyqt5_5.5.1+dfsg-3ubuntu4_amd64.deb
+  - pip install urllib3[secure] pyyaml pydh twisted pycryptodomex nclib https://github.com/bjones1/pyinstaller/archive/pyqt5_fix_cleaned.zip
+  - pip install --upgrade setuptools
 script: python make.py build all

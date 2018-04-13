@@ -18,7 +18,7 @@ install:
   - sudo apt-get update
   - sudo apt-get install python-pyqt5
   - sudo apt install python-pip
-  - pip install twisted
+  - pip install --verbose twisted
   - pip install urllib3[secure] pyyaml pydh pycryptodomex nclib https://github.com/bjones1/pyinstaller/archive/pyqt5_fix_cleaned.zip
   - pip install --upgrade setuptools
 script: python make.py build all

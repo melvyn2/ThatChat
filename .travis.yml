@@ -27,31 +27,33 @@ sudo: required
 # - python ./configure.py --no-python-dbus --no-qml-plugin --no-qsci-api --no-tools --confirm-license --disable QtNfc --disable QtHelp --disable QtMultimedia --disable QtMultimediaWidgets --disable QtNetwork --disable QtOpenGL --disable QtPrintSupport --disable QtQml --disable QtQuick --disable QtSql --disable QtSvg --disable QtTest --disable QtWebKit --disable QtWebKitWidgets --disable QtXml --disable QtXmlPatterns --disable QtDesigner --disable QAxContainer --disable QtDBus --disable QtWebSockets --disable QtWebChannel --disable QtNfc --disable QtBluetooth --disable QtX11Extras --disable QtQuickWidgets --disable _QOpenGLFunctions_2_0 --disable _QOpenGLFunctions_2_1 --disable _QOpenGLFunctions_4_1_Core
 # - make -j9
 # - make install
-# - cd $PROJDIR
-addons:
-  apt:
-    packages:
-      - libc6
-      - libgcc1
-      - libqt5core5a
-      - libqt5dbus5
-      - libqt5designer5
-      - libqt5gui5
-      - libqt5help5
-      - libqt5network5
-      - libqt5printsupport5
-      - libqt5test5
-      - libqt5widgets5
-      - libqt5xml5
-      - libstdc++6
-      - qtchooser
-      - qt5-qmake
-      - qt5-default
+## - cd $PROJDIR
+#addons:
+#  apt:
+#    packages:
+#      - libc6
+#      - libgcc1
+#      - libqt5core5a
+#      - libqt5dbus5
+#      - libqt5designer5
+#      - libqt5gui5
+#      - libqt5help5
+#      - libqt5network5
+#      - libqt5printsupport5
+#      - libqt5test5
+#      - libqt5widgets5
+#      - libqt5xml5
+#      - libstdc++6
+#      - qtchooser
+#      - qt5-qmake
+#      - qt5-default
 install:
   - pip install urllib3[secure] pyyaml pydh twisted pycryptodomex nclib https://github.com/bjones1/pyinstaller/archive/pyqt5_fix_cleaned.zip
   - pip install --upgrade setuptools
+  - echo 'deb http://mirror.servers.com/ubuntu/ xenial main restricted universe' | sudo tee -a /etc/apt/sources.list
+  - echo 'deb http://security.ubuntu.com/ubuntu/ xenial-security main restricted universe' | sudo tee -a /etc/apt/sources.list
   - sudo apt-get update
-  - sudo apt-get install -yq python-sip
+  - sudo apt-get install -yq python-sip libc6 libgcc1 libqt5core5a libqt5dbus5 libqt5designer5 libqt5gui5 libqt5help5 libqt5network5 libqt5printsupport5 libqt5test5 libqt5widgets5 libqt5xml5 libstdc++6 qtchooser qt5-qmake qt5-default
   - wget http://mirrors.kernel.org/ubuntu/pool/universe/p/pyqt5/python-pyqt5_5.5.1+dfsg-3ubuntu4_amd64.deb
   - sudo dpkg -i python-pyqt5_5.5.1+dfsg-3ubuntu4_amd64.deb
 script: python make.py build all

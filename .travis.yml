@@ -1,5 +1,6 @@
 language: python
 python: 2.7
+dist: trusty
 #deploy:
 #  provider: releases
 #  api_key:
@@ -48,4 +49,6 @@ addons:
 install:
   - pip install urllib3[secure] pyyaml pydh twisted pycryptodomex nclib https://github.com/bjones1/pyinstaller/archive/pyqt5_fix_cleaned.zip
   - pip install --upgrade setuptools
+  - apt-get update
+  - apt-get install -yq python-sip python-pyqt5
 script: python make.py build all

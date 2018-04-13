@@ -1,7 +1,7 @@
 language: python
 python: 2.7
 dist: trusty
-sudo: true
+sudo: required
 #deploy:
 #  provider: releases
 #  api_key:
@@ -50,8 +50,8 @@ addons:
 install:
   - pip install urllib3[secure] pyyaml pydh twisted pycryptodomex nclib https://github.com/bjones1/pyinstaller/archive/pyqt5_fix_cleaned.zip
   - pip install --upgrade setuptools
-  - apt-get update
-  - apt-get install -yq python-sip
+  - sudo apt-get update
+  - sudo apt-get install -yq python-sip
   - wget http://mirrors.kernel.org/ubuntu/pool/universe/p/pyqt5/python-pyqt5_5.5.1+dfsg-3ubuntu4_amd64.deb
-  - dpkg -i python-pyqt5_5.5.1+dfsg-3ubuntu4_amd64.deb
+  - sudo dpkg -i python-pyqt5_5.5.1+dfsg-3ubuntu4_amd64.deb
 script: python make.py build all

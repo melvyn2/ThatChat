@@ -2,8 +2,7 @@
 #
 #   This program is free software: you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
-#   the Free Software Foundation, either version 3 of the License, or
-#   (at your option) any later version.
+#   the Free Software Foundation, version 3.
 #
 #   This program is distributed in the hope that it will be useful,
 #   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -87,6 +86,7 @@ def main():
 	username_dialog = QtWidgets.QDialog()
 	server_ui = ServerDialog.Ui_Dialog()
 	server_ui.setupUi(server_dialog)
+	server_ui.lineEdit.setPlaceholderText('127.0.0.1' if '--dbg' in sys.argv else '73.223.92.4')
 	server_ui.buttonBox.rejected.connect(sys.exit)
 	server_dialog.setFixedSize(server_dialog.size())
 	chat_client_window = Window()

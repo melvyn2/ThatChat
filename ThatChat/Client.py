@@ -50,6 +50,14 @@ class TextEnter(QtWidgets.QTextEdit):
 			super(TextEnter, self).keyPressEvent(event)
 
 
+def check_text_limit(textedit, maxlen):
+	if len(textedit.toPlainText()) > maxlen:
+		textedit.setPlainText(textedit.toPlainText()[:maxlen])
+		cursor = textedit.textCursor()
+		cursor.setPosition(maxlen)
+		textedit.setTextCursor(cursor)
+
+
 def resize(ui, window):
 	ui.textEdit.resize(window.width() - 41, window.height() - (ui.textEdit_2.height() + 67))
 	ui.textEdit_2.move(ui.textEdit_2.x(), ui.textEdit.y() + 7 + ui.textEdit.height())
@@ -227,6 +235,7 @@ def main():
 	# noinspection PyCallByClass
 	QtCore.QMetaObject.connectSlotsByName(chat_client_window)
 
+	main_ui.textEdit_2.textChanged.connect(lambda : check_text_limit(main_ui.textEdit_2, 8155))
 	main_ui.sendButton.clicked.connect(lambda: send_mesg(nc, main_ui.textEdit_2, encryption))
 	main_ui.textEdit_2.enterPressed.connect(lambda: send_mesg(nc, main_ui.textEdit_2, encryption))
 	chat_client_window.resized.connect(lambda: resize(main_ui, chat_client_window))

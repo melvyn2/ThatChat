@@ -1,4 +1,4 @@
-# -*- mode: python -*-
+#!/usr/bin/env python2.7
 
 #   Copyright (C) 2018  melvyn2
 #
@@ -15,27 +15,24 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import sys
 import os
+from setuptools import setup
+from setuptools import find_packages
 
-block_cipher = None
 
-# noinspection PyUnresolvedReferences
-a = Analysis([os.path.join('ThatChat', 'Server.py')], pathex=['ThatChat'])
+def read(fname):
+	return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
-# noinspection PyUnresolvedReferences
-pyz = PYZ(a.pure, a.zipped_data)
 
-# noinspection PyUnresolvedReferences
-exe = EXE(pyz,
-		a.scripts,
-		a.binaries + [('msvcp100.dll', 'C:\\Windows\\System32\\msvcp100.dll', 'BINARY'),
-			('msvcr100.dll', 'C:\\Windows\\System32\\msvcr100.dll', 'BINARY')]
-		if sys.platform in ['windows', 'win32'] else a.binaries,
-		a.zipfiles,
-		a.datas,
-		name='ThatChatServer',
-		debug=False,
-		strip=False,
-		upx=True,
-		console=True)
+setup(
+	name='ThatChat',
+	version='0.1',
+	packages=find_packages(),
+	url='https://github.com/melvyn2/ThatChat',
+	license='GPLv3',
+	author='melvyn2',
+	author_email='melvyn2@brcok.tk',
+	long_description=read('README.md'),
+	description='Encrypted chat, in python.',
+	install_requires=['nclib', 'pyDH', 'PyYAML', 'certifi', 'urllib3', 'twisted', 'pycryptodomex']
+)

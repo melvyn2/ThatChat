@@ -13,12 +13,12 @@ sudo: required
 #  on:
 #    tags: true
 install:
+  - pip install --verbose twisted
+  - pip install urllib3[secure] pyyaml pydh pycryptodomex nclib https://github.com/bjones1/pyinstaller/archive/pyqt5_fix_cleaned.zip
+  - pip install --upgrade setuptools
   - echo 'deb http://us.archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse' | sudo tee -a /etc/apt/sources.list
   - echo 'deb http://security.ubuntu.com/ubuntu/ xenial-security main restricted universe multiverse' | sudo tee -a /etc/apt/sources.list
   - sudo apt-get update
   - sudo apt-get install python-pyqt5
   - sudo apt install python-pip
-  - pip install --verbose twisted
-  - pip install urllib3[secure] pyyaml pydh pycryptodomex nclib https://github.com/bjones1/pyinstaller/archive/pyqt5_fix_cleaned.zip
-  - pip install --upgrade setuptools
 script: python make.py build all

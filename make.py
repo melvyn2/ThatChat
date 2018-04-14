@@ -135,7 +135,11 @@ elif action == 'deps':
 	missing = []
 	deps = ['pycryptodomex', 'nclib', 'pyinstaller', 'twisted', 'pyyaml', 'pydh',
 				'urllib3', 'cryptography', 'idna', 'certifi', 'pyopenssl', 'service-identity']
-	import pip
+	try:
+		import pip
+	except ImportError:
+		print('Pip is missing.')
+		sys.exit(1)
 	installed_packages = {i.key: i.version for i in pip.get_installed_distributions()}
 	for i in deps:
 		if i not in installed_packages.keys():

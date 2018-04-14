@@ -19,7 +19,7 @@ Requirements
 
 • PyInstaller (with PyQt5 Fix) : `pip install https://github.com/bjones1/pyinstaller/archive/pyqt5_fix_cleaned.zip` for building
 
-• [Twisted](http://twistedmatrix.com/)
+• [Twisted](http://twistedmatrix.com/) for the server
 
 
 Building

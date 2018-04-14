@@ -1,5 +1,3 @@
-# -*- mode: python -*-
-
 #   Copyright (C) 2018  Melvyn Depeyrot
 #
 #   This program is free software: you can redistribute it and/or modify
@@ -15,27 +13,30 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import sys
-import os
+from Cryptodome.PublicKey import RSA
+from Cryptodome.Signature import pss
+from Cryptodome.Hash import SHA256
 
-block_cipher = None
 
-# noinspection PyUnresolvedReferences
-a = Analysis([os.path.join('ThatChat', 'Server.py')], pathex=['ThatChat'])
+class Verification(object):
+	def __init__(self, key):
+		self.key = key
 
-# noinspection PyUnresolvedReferences
-pyz = PYZ(a.pure, a.zipped_data)
+	def sign(self, text):
+		sig = pss.new(self.key).sign(SHA256.new(text))
+		return sig
 
-# noinspection PyUnresolvedReferences
-exe = EXE(pyz,
-		a.scripts,
-		a.binaries + [('msvcp100.dll', 'C:\\Windows\\System32\\msvcp100.dll', 'BINARY'),
-			('msvcr100.dll', 'C:\\Windows\\System32\\msvcr100.dll', 'BINARY')]
-		if sys.platform in ['windows', 'win32'] else a.binaries,
-		a.zipfiles,
-		a.datas,
-		name='ThatChatServer',
-		debug=False,
-		strip=False,
-		upx=True,
-		console=True)
+	def verify(self, text, signature):
+		try:
+			pss.new(self.key).verify(SHA256.new(text), signature)
+		except ValueError:
+			return False
+		return True
+
+
+def import_pem_key(pemkey):
+	from base64 import b64decode
+	import os
+	key64 = ''.join(pemkey.split(os.linesep)[1:-1])
+	key_der = b64decode(key64)
+	return RSA.importKey(key_der)

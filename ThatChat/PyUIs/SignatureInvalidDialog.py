@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/Users/melvyn/ThatChat/Src/UIs/SignatureInvalidDialog.ui'
+# Form implementation generated from reading ui file '/Users/melvyn/ThatChat/ThatChat/UIs/SignatureInvalidDialog.ui'
 #
 # Created by: PyQt5 UI code generator 5.10.1
 #

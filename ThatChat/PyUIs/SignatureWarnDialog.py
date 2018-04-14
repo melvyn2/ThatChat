@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/Users/melvyn/ThatChat/Src/UIs/SignatureWarnDialog.ui'
+# Form implementation generated from reading ui file '/Users/melvyn/ThatChat/ThatChat/UIs/SignatureWarnDialog.ui'
 #
 # Created by: PyQt5 UI code generator 5.10.1
 #

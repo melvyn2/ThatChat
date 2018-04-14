@@ -22,9 +22,9 @@ from Cryptography import aes, rsa
 from PyUIs import MainWindow, ServerDialog, SignatureWarnDialog, SignatureInvalidDialog, UsernameDialog
 
 
-def send_mesg(netcat, linedit, aescipher, header='MESG'):
-	netcat.send('/' + header + aescipher.encrypt(str(linedit.text().encode('utf-8'))) + header + '/\r\n')
-	linedit.clear()
+def send_mesg(netcat, textedit, aescipher, header='MESG'):
+	netcat.send('/' + header + aescipher.encrypt(str(textedit.toPlainText().encode('utf-8'))) + header + '/\r\n')
+	textedit.clear()
 
 
 # noinspection PyArgumentList
@@ -39,11 +39,22 @@ class Window(QtWidgets.QMainWindow):
 		return super(Window, self).resizeEvent(event)
 
 
+# noinspection PyArgumentList
+class TextEnter(QtWidgets.QTextEdit):
+	enterPressed = QtCore.pyqtSignal()
+
+	def keyPressEvent(self, event):
+		if event.key() == 16777220:
+			self.enterPressed.emit()
+		else:
+			super(TextEnter, self).keyPressEvent(event)
+
+
 def resize(ui, window):
-	ui.textEdit.resize(window.width() - 41, window.height() - (ui.lineEdit.height() + 67))
-	ui.lineEdit.move(ui.lineEdit.x(), ui.textEdit.y() + 7 + ui.textEdit.height())
-	ui.lineEdit.resize(window.width() - (ui.sendButton.width() + 40), 91)
-	ui.sendButton.move((ui.lineEdit.width() + ui.lineEdit.x() + 5), ui.textEdit.y() + 3 + ui.textEdit.height())
+	ui.textEdit.resize(window.width() - 41, window.height() - (ui.textEdit_2.height() + 67))
+	ui.textEdit_2.move(ui.textEdit_2.x(), ui.textEdit.y() + 7 + ui.textEdit.height())
+	ui.textEdit_2.resize(window.width() - (ui.sendButton.width() + 40), 91)
+	ui.sendButton.move((ui.textEdit_2.width() + ui.textEdit_2.x() + 5), ui.textEdit.y() + 3 + ui.textEdit.height())
 
 
 # noinspection PyArgumentList
@@ -203,13 +214,24 @@ def main():
 		elif buf == '/UNIV':
 			username_ui.label_2.setText('Username Invalid!')
 			continue
-
 	print('Username is confirmed.')
+
 	main_ui.setupUi(chat_client_window)
-	main_ui.sendButton.clicked.connect(lambda: send_mesg(nc, main_ui.lineEdit, encryption))
-	main_ui.lineEdit.returnPressed.connect(lambda: send_mesg(nc, main_ui.lineEdit, encryption))
+	orig_geometry = main_ui.textEdit_2.geometry()
+	main_ui.textEdit_2.deleteLater()
+	main_ui.textEdit_2 = TextEnter(main_ui.centralwidget)
+	main_ui.textEdit_2.setGeometry(orig_geometry)
+	main_ui.textEdit_2.setObjectName("textEdit_2")
+	chat_client_window.setCentralWidget(main_ui.centralwidget)
+	main_ui.retranslateUi(chat_client_window)
+	# noinspection PyCallByClass
+	QtCore.QMetaObject.connectSlotsByName(chat_client_window)
+
+	main_ui.sendButton.clicked.connect(lambda: send_mesg(nc, main_ui.textEdit_2, encryption))
+	main_ui.textEdit_2.enterPressed.connect(lambda: send_mesg(nc, main_ui.textEdit_2, encryption))
 	chat_client_window.resized.connect(lambda: resize(main_ui, chat_client_window))
 	chat_client_window.setWindowTitle('ThatChat Client - {0}:{1}'.format(host, port))
+
 	chat_client_window.show()
 	recieve_thread = RecvThread(nc, encryption)
 	recieve_thread.toappend.connect(main_ui.textEdit.append)

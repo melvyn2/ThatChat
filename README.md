@@ -40,3 +40,7 @@ Plannned Features
 • Different rooms on same server
 
 • Able to be in multiple rooms at once through pyqt tabs
+
+Test Server
+-----------
+A test server is availible at 73.223.92.4 running at port 7000

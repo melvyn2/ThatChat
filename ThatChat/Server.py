@@ -99,12 +99,12 @@ class ChatHandler(LineReceiver):
 			if line[:5] == '/MESG' and line[-5:] == 'MESG/':
 				dmsg, integ = self.aes.decrypt(line[5:-5])
 				if (not dmsg.isspace()) and dmsg:
-					if self.tdelay > time.localtime(time.time())[4] * 100 + time.localtime(time.time())[5] - 0.75:
-						self.send_cmd('/NSPM')
-					else:
-						for protocol in self.users.values():
-							protocol.send_msg('<span style=\'color:' + ('#0000ff' if protocol == self else '#40FF00') +
-								';\' >[{0}]<span style=\'color:#000000;\' > {1}'.format(self.name, dmsg))
+					# if self.tdelay > time.localtime(time.time())[4] * 100 + time.localtime(time.time())[5] - 0.75:
+					# 	self.send_msg('No spamming!')
+					# else:
+					for protocol in self.users.values():
+						protocol.send_msg('<span style=\'color:' + ('#0000ff' if protocol == self else '#40FF00') +
+							';\' >[{0}]<span style=\'color:#000000;\' > {1}'.format(self.name, dmsg))
 					self.tdelay = time.localtime(time.time())[4] * 100 + time.localtime(time.time())[5]
 
 

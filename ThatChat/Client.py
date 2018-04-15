@@ -230,10 +230,7 @@ def main():
 	main_ui.textEdit_2 = TextEnter(main_ui.centralwidget)
 	main_ui.textEdit_2.setGeometry(orig_geometry)
 	main_ui.textEdit_2.setObjectName("textEdit_2")
-	chat_client_window.setCentralWidget(main_ui.centralwidget)
 	main_ui.retranslateUi(chat_client_window)
-	# noinspection PyCallByClass
-	QtCore.QMetaObject.connectSlotsByName(chat_client_window)
 
 	main_ui.textEdit_2.textChanged.connect(lambda : check_text_limit(main_ui.textEdit_2, 8155))
 	main_ui.sendButton.clicked.connect(lambda: send_mesg(nc, main_ui.textEdit_2, encryption))

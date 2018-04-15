@@ -1,3 +1,5 @@
+#!/usr/bin/env python2.7
+
 #   Copyright (C) 2018 Melvyn Depeyrot
 #
 #   This program is free software: you can redistribute it and/or modify

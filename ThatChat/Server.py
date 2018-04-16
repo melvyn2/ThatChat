@@ -125,7 +125,7 @@ class ChatFactory(Factory):
 def main(port=7000, keypath=None):
 	if not keypath:
 		keypath = os.path.join((os.getenv('LOCALAPPDATA') if sys.platform in ['win32', 'windows']
-			else os.path.expanduser('~')), '.PyChatServerKey.pem')
+			else os.path.expanduser('~')), '.ThatChatServerKey.pem')
 	if os.path.isfile(keypath):
 		key = rsa.import_pem_key(open(keypath).read())
 	else:

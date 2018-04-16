@@ -4,7 +4,8 @@
 #
 #   This program is free software: you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
-#   the Free Software Foundation, version 3.
+#   the Free Software Foundation, either version 3 of the License, or
+#   (at your option) any later version.
 #
 #   This program is distributed in the hope that it will be useful,
 #   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -110,8 +111,6 @@ def main():
 	server_ui.lineEdit.setPlaceholderText('127.0.0.1' if '--dbg' in sys.argv else '73.223.92.4')
 	server_ui.buttonBox.rejected.connect(sys.exit)
 	server_dialog.setFixedSize(server_dialog.size())
-	chat_client_window = Window()
-	main_ui = MainWindow.Ui_MainWindow()
 	while True:
 		server_dialog.exec_()
 		try:
@@ -142,7 +141,7 @@ def main():
 	buf = nc.recv_until('\r\n').replace('\r\n', '')[5:-5].decode('hex')
 	if getattr(sys, 'frozen', False):
 		sig_db_path = os.path.join((os.getenv('LOCALAPPDATA') if sys.platform in ['win32', 'windows']
-			else os.path.expanduser('~')), '.PyChatSignatureDB.yml')
+			else os.path.expanduser('~')), '.ThatChatSignatureDB.yml')
 	else:
 		sig_db_path = 'signature_db.yml'
 	try:
@@ -226,6 +225,8 @@ def main():
 			continue
 	print('Username is confirmed.')
 
+	chat_client_window = Window()
+	main_ui = MainWindow.Ui_MainWindow()
 	main_ui.setupUi(chat_client_window)
 	orig_geometry = main_ui.textEdit_2.geometry()
 	main_ui.textEdit_2.deleteLater()
@@ -234,11 +235,14 @@ def main():
 	main_ui.textEdit_2.setObjectName("textEdit_2")
 	main_ui.retranslateUi(chat_client_window)
 
-	main_ui.textEdit_2.textChanged.connect(lambda : check_text_limit(main_ui.textEdit_2, 8155))
+	# noinspection PyUnresolvedReferences
+	main_ui.textEdit_2.textChanged.connect(lambda: check_text_limit(main_ui.textEdit_2, 8155))
 	main_ui.sendButton.clicked.connect(lambda: send_mesg(nc, main_ui.textEdit_2, encryption))
 	main_ui.textEdit_2.enterPressed.connect(lambda: send_mesg(nc, main_ui.textEdit_2, encryption))
 	chat_client_window.resized.connect(lambda: resize(main_ui, chat_client_window))
 	chat_client_window.setWindowTitle('ThatChat Client - {0}:{1}'.format(host, port))
+
+	app.title = 'ThatChat Encrypted chat client'
 
 	chat_client_window.show()
 	recieve_thread = RecvThread(nc, encryption)

@@ -1,17 +1,3 @@
-#   Copyright (C) 2018 melvyn2
-#
-#   This program is free software: you can redistribute it and/or modify
-#   it under the terms of the GNU General Public License as published by
-#   the Free Software Foundation, version 3.
-#
-#   This program is distributed in the hope that it will be useful,
-#   but WITHOUT ANY WARRANTY; without even the implied warranty of
-#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#   GNU General Public License for more details.
-#
-#   You should have received a copy of the GNU General Public License
-#   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 {!!python/unicode '10.0.1.10': '-----BEGIN PUBLIC KEY-----
 
     MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwCiQW4W1s/ckgQlPXExQ
@@ -30,19 +16,19 @@
 
     -----END PUBLIC KEY-----', !!python/unicode '127.0.0.1': '-----BEGIN PUBLIC KEY-----
 
-    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqeseYV6uhyMYqIGFa5wK
+    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArh82xXDX1Bx/bC5kWq6u
 
-    LkSyZbTzLy2BEx5YArH8patGgkq35eS1UOAZjsxs7KaPxUnTcxHahXa/YxowD3HO
+    4J6RfLcNuB9tzG1YgULSUPt60NTgXwK9MQZhWDPl2mAgxWmtXJ7M47wiSQCd1MOp
 
-    S/cOioz1V9XXwvk3aj1CpdBOT93yftC/n5VjDzOolzeTivG8dUqOcSVUUNuxQ6od
+    y8gp+wpl92BNQO8VW06iNcvcGE9rDV1gBSCs+Sa2Ftte7Hc2OlWUa9z58WBtVX0O
 
-    1edPeRxc2HVyLWGnb19xyFfet7BuVbefZkZxN7PRK9ZtTE3QSbYKx+zFh2THv5jQ
+    dqknGodDfKbO8LCMwlNdRiB5rCVXd9U2gcaLLwYd5d5UOeEo9NPM29uC3364whvm
 
-    tLwajMpld3iVa5o8fiQ4C4bIAKyjdE/YW2OpTnSHWEPDU45v8X67G2jTYb600irA
+    T1yHc2wIfde6MH7khGtRfLpByPehgb5t8d4zRBeBLrDxEWTEBos5MnKD8l+R9Io0
 
-    DCyLlLCiWz22aO9uP45nemMUsQ9JiPR7M5ZeZRYdmtpB3qh6LXAyZMWvnKWi/OMO
+    tMlmytHvyviX9OWKTkUjvs8mEs3aIBvpMqD3g6gJoecRWbMba90JrjPWKNBI5Vmh
 
-    hwIDAQAB
+    rQIDAQAB
 
     -----END PUBLIC KEY-----', !!python/unicode '73.223.92.4': '-----BEGIN PUBLIC
     KEY-----

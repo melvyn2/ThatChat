@@ -21,13 +21,17 @@ import os
 import yaml
 from nclib import Netcat, NetcatError
 import pyDH
+from Cryptodome.Hash import SHA512
 from Cryptography import aes, rsa
 from PyUIs import MainWindow, ServerDialog, SignatureWarnDialog, SignatureInvalidDialog, UsernameDialog
 
 
 def send_mesg(netcat, textedit, aescipher, header='MESG'):
-	netcat.send('/' + header + aescipher.encrypt(str(textedit.toPlainText().encode('utf-8'))) + header + '/\r\n')
-	textedit.clear()
+	try:
+		netcat.send('/' + header + aescipher.encrypt(str(textedit.toPlainText().encode('utf-8'))) + header + '/\r\n')
+		textedit.clear()
+	except AttributeError:
+		netcat.send('/' + header + aescipher.encrypt(str(textedit)) + header + '/\r\n')
 
 
 # noinspection PyArgumentList
@@ -105,7 +109,6 @@ def exec_close(run, thread):
 def main():
 	app = QtWidgets.QApplication(sys.argv)
 	server_dialog = QtWidgets.QDialog()
-	username_dialog = QtWidgets.QDialog()
 	server_ui = ServerDialog.Ui_Dialog()
 	server_ui.setupUi(server_dialog)
 	server_ui.lineEdit.setPlaceholderText('127.0.0.1' if '--dbg' in sys.argv else '73.223.92.4')
@@ -117,10 +120,10 @@ def main():
 			port = int(server_ui.lineEdit_2.text() if server_ui.lineEdit_2.text() != ''
 				else server_ui.lineEdit_2.placeholderText())
 		except ValueError:
-			server_ui.label_3.setText('Invalid Port1')
+			server_ui.label_3.setText('Invalid Port!')
 			continue
 		if port > 65535:
-			server_ui.label_3.setText('Invalid Port!2')
+			server_ui.label_3.setText('Invalid Port!')
 			continue
 		host = server_ui.lineEdit.text() if server_ui.lineEdit.text() != ''\
 			else server_ui.lineEdit.placeholderText()
@@ -154,7 +157,7 @@ def main():
 		try:
 			f = open(sig_db_path, 'w')
 			f.write(urllib3.PoolManager(cert_reqs='CERT_REQUIRED', ca_certs=certifi.where())
-				.request('GET', 'https://raw.githubusercontent.com/melvyn2/ThatChat/master/Src/signature_db.yml').data)
+				.request('GET', 'https://raw.githubusercontent.com/melvyn2/ThatChat/master/ThatChat/signature_db.yml').data)
 			f.close()
 			sig_db = yaml.load(open(sig_db_path).read())
 		except urllib3.exceptions.MaxRetryError:
@@ -203,6 +206,39 @@ def main():
 	nc.send('/DHPK' + str(dh_pubkey) + 'DHPK/\r\n')
 	print('Completed DH handshake.')
 
+	buf = nc.recv_until('\r\n').replace('\r\n', '')
+	if buf[:5] == '/PSSL' and buf[-5:] == 'PSSL/':
+		username_dialog = QtWidgets.QDialog()
+		username_ui = UsernameDialog.Ui_Dialog()
+		username_ui.setupUi(username_dialog)
+		username_ui.buttonBox.rejected.connect(sys.exit)
+		username_dialog.setFixedSize(username_dialog.size())
+		username_ui.label.setText('Password:')
+		username_dialog.setWindowTitle('ThatChat Client - Password')
+
+		pass_salt, integ = encryption.decrypt(buf[5:-5])
+
+		while True:
+			username_dialog.exec_()
+			try:
+				send_mesg(nc, SHA512.new(str(username_ui.lineEdit.text()) + pass_salt).digest(), encryption,
+						'PSHS')
+			except UnicodeEncodeError:
+				username_ui.label_2.setText('Unicode is not supported in passwords!')
+				continue
+			buf = nc.recv_until('\r\n').replace('\r\n', '')
+			if buf == '/PSOK':
+				print('Server accepted password')
+				break
+			elif buf == '/PSIV':
+				username_ui.label_2.setText('Incorrect password!')
+				continue
+
+		username_dialog.deleteLater()
+	else:
+		print('Server does not require password.')
+
+	username_dialog = QtWidgets.QDialog()
 	username_ui = UsernameDialog.Ui_Dialog()
 	username_ui.setupUi(username_dialog)
 	username_ui.buttonBox.rejected.connect(sys.exit)
@@ -210,7 +246,7 @@ def main():
 	while True:
 		username_dialog.exec_()
 		try:
-			nc.send('/UNST' + encryption.encrypt(str(username_ui.lineEdit.text())) + 'UNST/\r\n')
+			send_mesg(nc, username_ui.lineEdit.text(), encryption, 'UNST')
 		except UnicodeEncodeError:
 			username_ui.label_2.setText('Unicode is not supported in usernames!')
 			continue
@@ -232,7 +268,7 @@ def main():
 	main_ui.textEdit_2.deleteLater()
 	main_ui.textEdit_2 = TextEnter(main_ui.centralwidget)
 	main_ui.textEdit_2.setGeometry(orig_geometry)
-	main_ui.textEdit_2.setObjectName("textEdit_2")
+	main_ui.textEdit_2.setObjectName('textEdit_2')
 	main_ui.retranslateUi(chat_client_window)
 
 	# noinspection PyUnresolvedReferences

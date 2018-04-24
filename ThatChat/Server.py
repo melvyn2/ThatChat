@@ -21,6 +21,7 @@ import os
 
 import pyDH
 
+from Cryptodome.Hash import SHA512
 from Cryptodome.PublicKey import RSA
 
 from Cryptography import aes, rsa
@@ -33,13 +34,17 @@ import twisted.internet.error
 
 # noinspection PyAbstractClass, PyMethodOverriding
 class ChatHandler(LineReceiver):
-	def __init__(self, users, key):
+	def __init__(self, users, key, password):
 		self.users = users
 		self.name = None
 		self.tdelay = 0
 		self.state = 0
 		self.key = key
 		self.signer = rsa.Verification(self.key)
+		self.password = password
+		self.pass_salt = ''
+		while len(self.pass_salt) < 1024:
+			self.pass_salt = self.pass_salt.__add__(unichr(ord(os.urandom(1))).encode('ascii', 'ignore').encode('hex'))
 		self.aes = None
 		self.dh = None
 		self.dh_pubkey = None
@@ -79,8 +84,21 @@ class ChatHandler(LineReceiver):
 			if line[:5] == '/DHPK' and line[-5:] == 'DHPK/':
 				self.dh_sharedkey = self.dh.gen_shared_key(long(line[5:-5]))
 				self.aes = aes.AESCipher(self.dh_sharedkey)
-				self.state = 3
+				if self.password:
+					self.send_msg(self.pass_salt, 'PSSL')
+					self.state = 3
+				else:
+					self.send_cmd('NOPS')
+					self.state = 4
 		elif self.state == 3:
+			if line[:5] == '/PSHS' and line[-5:] == 'PSHS/':
+				line, integ = self.aes.decrypt(line[5:-5])
+				if line == SHA512.new(self.password + self.pass_salt).digest():
+					self.send_cmd('PSOK')
+					self.state = 4
+				else:
+					self.send_cmd('PSIV')
+		elif self.state == 4:
 			if line[:5] == '/UNST' and line[-5:] == 'UNST/':
 				username, integ = self.aes.decrypt(line[5:-5])
 				if username in self.users:
@@ -96,8 +114,8 @@ class ChatHandler(LineReceiver):
 					if protocol != self:
 						protocol.send_msg('<span style=\'color:#40FF00;\' >' + self.name + '<span style=\'color:#000000;\' > '
 					+ ' joined.')
-				self.state = 4
-		elif self.state == 4:
+				self.state = 5
+		elif self.state == 5:
 			if line[:5] == '/MESG' and line[-5:] == 'MESG/':
 				dmsg, integ = self.aes.decrypt(line[5:-5])
 				if (not dmsg.isspace()) and dmsg:
@@ -113,16 +131,17 @@ class ChatHandler(LineReceiver):
 
 class ChatFactory(Factory):
 
-	def __init__(self, key=None):
+	def __init__(self, key=None, password=None):
 		self.key = key
+		self.password = password
 		self.users = {}
 
 	def buildProtocol(self, addr):
-		return ChatHandler(self.users, self.key)
+		return ChatHandler(self.users, self.key, self.password)
 
 
 # noinspection PyUnresolvedReferences
-def main(port=7000, keypath=None):
+def main(port=7000, keypath=None, password=None):
 	if not keypath:
 		keypath = os.path.join((os.getenv('LOCALAPPDATA') if sys.platform in ['win32', 'windows']
 			else os.path.expanduser('~')), '.ThatChatServerKey.pem')
@@ -131,9 +150,11 @@ def main(port=7000, keypath=None):
 	else:
 		key = RSA.generate(2048)
 		open(keypath, 'wb').write(key.exportKey())
+	if not port:
+		port = 7000
 
 	try:
-		reactor.listenTCP(int(port), ChatFactory(key))
+		reactor.listenTCP(int(port), ChatFactory(key, password))
 		reactor.run()
 
 	except ValueError:
@@ -154,15 +175,23 @@ Try running as root/with sudo, or check if other procceses are using that port.'
 
 
 if __name__ == '__main__':
-	if len(sys.argv) > 3:
-		print('''Usage: {0}{1} [server port] [private key file]
-	Example: {0}{1} 5000
-	The default port is 7000.'''.format(('' if getattr(sys, 'frozen', False) else 'python '), sys.argv[0]))
-		sys.exit(0)
-
-	if len(sys.argv) == 3:
-		main(sys.argv[1], sys.argv[2])
-	elif len(sys.argv) == 2:
-		main(sys.argv[1])
-	else:
-		main()
+	import argparse
+	parser = argparse.ArgumentParser(description='ThatChat Encrypted Chat server.')
+	# noinspection PyTypeChecker
+	parser.add_argument('--port', metavar='N', dest='port', type=int,
+						help='The port for the server to run on (default 7000).')
+	# noinspection PyTypeChecker
+	parser.add_argument('--keyfile', metavar='F', dest='keypath', type=str,
+						help='The path to the PEM encoded private key for the server to identify as.' +
+						'The default path is: ' +
+						os.path.join((os.getenv('LOCALAPPDATA') if sys.platform in ['win32', 'windows']
+						else '~'), '.ThatChatServerKey.pem'))
+	# noinspection PyTypeChecker
+	parser.add_argument('--passfile', metavar='F', dest='passpath', type=str,
+						help='The path to a file containing only the password. This takes priority over --password.')
+	# noinspection PyTypeChecker
+	parser.add_argument('--password', metavar='P', dest='password', type=str,
+						help='The password required to join, enclosed in quotes if there are spaces. Default is no password.' +
+						'Note that using this means that anyone that checks the running proccesses can see the password.')
+	args = parser.parse_args()
+	main(args.port, args.keypath, open(args.passpath).read().split(os.linesep)[0] if args.passpath else args.password)

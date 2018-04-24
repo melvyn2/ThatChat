@@ -33,13 +33,13 @@ cd ThatChat
 
 Plannned Features
 -----------------
-• Rewrite in python3
+- [ ] Rewrite in python3
 
-• Password protected servers or chat rooms
+- [x] Password protected servers ~~or chat rooms~~
 
-• Different rooms on same server
+- [ ] Different rooms on same server
 
-• Able to be in multiple rooms at once through pyqt tabs
+- [ ] Able to be in multiple rooms at once through pyqt tabs
 
 Test Server
 -----------

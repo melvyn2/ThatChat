@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>ChatClientWindow</string>
+   <string>ThatChat Secure Chat Client</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QPushButton" name="sendButton">

@@ -14,7 +14,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>PyChat Client - Username</string>
+   <string>ThatChat Client - Server</string>
   </property>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">

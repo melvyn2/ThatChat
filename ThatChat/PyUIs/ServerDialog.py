@@ -51,7 +51,7 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "PyChat Client - Username"))
+        Dialog.setWindowTitle(_translate("Dialog", "ThatChat Client - Server"))
         self.lineEdit.setPlaceholderText(_translate("Dialog", "127.0.0.1"))
         self.label.setText(_translate("Dialog", "Enter the server\'s hostname/IPv4 address:"))
         self.label_2.setText(_translate("Dialog", "Enter the port:"))

@@ -34,7 +34,7 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
+        Dialog.setWindowTitle(_translate("Dialog", "ThatChat Client - Signature Invalid Warning"))
         self.label.setText(_translate("Dialog", "The signature reported by the server does not match the one it connected with. This connection is almost certainly insecure, potententially compromising your privacy."))
         self.label_2.setText(_translate("Dialog", "ERROR:"))
 

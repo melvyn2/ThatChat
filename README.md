@@ -37,10 +37,10 @@ Plannned Features
 
 - [x] Password protected servers ~~or chat rooms~~
 
-- [ ] Different rooms on same server
+- [ ] ~~Different rooms on same server~~ (Use different ports for different servers)
 
-- [ ] Able to be in multiple rooms at once through pyqt tabs
+- [ ] ~~Able to be in multiple rooms at once through pyqt tabs~~ (See above)
 
 Test Server
 -----------
-A test server is availible at 73.223.92.4 running at port 7000
+A test server is availible at 73.223.92.4 running at port 7000.

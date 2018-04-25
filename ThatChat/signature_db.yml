@@ -1,50 +1,18 @@
-{!!python/unicode '10.0.1.10': '-----BEGIN PUBLIC KEY-----
-
-    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwCiQW4W1s/ckgQlPXExQ
-
-    QW4DaikDw82j4okcTAGc4rcDHoJR0xBupSEPnrEU5wjKYxq23REkwDO+3pNFc4PX
-
-    tFqeZKHJ11x2ivJTS84LRs2cglwAD8+5+nXaWNViPtpDoQoyCCLcMhk6uWAZfLrk
-
-    MfhpiCsMUzKfeECb6Ki9oV+hxexdA0sZx3eV3mCfdnkcsPG3yB2fGJGNEXPiVM6o
-
-    LEaJtMHuvVXhO++YMK0NmmC76FdJEIcdzdng5cG0KYOqD90kKMNqoHTyrM5iWjM1
-
-    JrD0SVQHb5mYwZmJPZTQzfTGJFQdIKG62tsvt88PcbcMB2loj1TdZehyFzYG9XN4
-
-    +QIDAQAB
-
-    -----END PUBLIC KEY-----', !!python/unicode '127.0.0.1': '-----BEGIN PUBLIC KEY-----
-
-    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArh82xXDX1Bx/bC5kWq6u
-
-    4J6RfLcNuB9tzG1YgULSUPt60NTgXwK9MQZhWDPl2mAgxWmtXJ7M47wiSQCd1MOp
-
-    y8gp+wpl92BNQO8VW06iNcvcGE9rDV1gBSCs+Sa2Ftte7Hc2OlWUa9z58WBtVX0O
-
-    dqknGodDfKbO8LCMwlNdRiB5rCVXd9U2gcaLLwYd5d5UOeEo9NPM29uC3364whvm
-
-    T1yHc2wIfde6MH7khGtRfLpByPehgb5t8d4zRBeBLrDxEWTEBos5MnKD8l+R9Io0
-
-    tMlmytHvyviX9OWKTkUjvs8mEs3aIBvpMqD3g6gJoecRWbMba90JrjPWKNBI5Vmh
-
-    rQIDAQAB
-
-    -----END PUBLIC KEY-----', !!python/unicode '73.223.92.4': '-----BEGIN PUBLIC
+{!!python/unicode '73.223.92.4': '-----BEGIN PUBLIC
     KEY-----
 
-    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwCiQW4W1s/ckgQlPXExQ
+    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0tZgsmVD54lBgDaN9uhk
 
-    QW4DaikDw82j4okcTAGc4rcDHoJR0xBupSEPnrEU5wjKYxq23REkwDO+3pNFc4PX
+    Xrkkeryz1H9p23WO7mdXIVUlUggMtHFdvbcDWk3g569qJuhOrVvqvOV9dsePAHwt
 
-    tFqeZKHJ11x2ivJTS84LRs2cglwAD8+5+nXaWNViPtpDoQoyCCLcMhk6uWAZfLrk
+    gG2wquwxgmvfeJwirm+XwzUiQDsC3fuFi9QnWsMGvBunO1SXXlEchaPNnTcABZmj
 
-    MfhpiCsMUzKfeECb6Ki9oV+hxexdA0sZx3eV3mCfdnkcsPG3yB2fGJGNEXPiVM6o
+    ktVvSyMQByxk4P7Dmq5u/fPGsZiKYz8pS8jry216fu9HaYZmlYuT07z3Bkrq6zLh
 
-    LEaJtMHuvVXhO++YMK0NmmC76FdJEIcdzdng5cG0KYOqD90kKMNqoHTyrM5iWjM1
+    fAsyBcbc2CSTsgT1a9nGKdW5ADvc8l91J+57qmCf5pijD4vG3iLorO++0pBkd683
 
-    JrD0SVQHb5mYwZmJPZTQzfTGJFQdIKG62tsvt88PcbcMB2loj1TdZehyFzYG9XN4
+    C9BKT5an9CPN/Qh06pZbCuqzQXInWu1Ke+PPJl3PwSdMlyYnwsNiQxcDucvDPqHF
 
-    +QIDAQAB
+    kQIDAQAB
 
     -----END PUBLIC KEY-----'}

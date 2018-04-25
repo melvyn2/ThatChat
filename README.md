@@ -9,7 +9,7 @@ Requirements
 ------------
 • [Python 2.7](https://www.python.org/)
 
-• [PycryptodomeX](https://github.com/Legrandin/pycryptodome) : `pip install pycryptodomex`
+• [pyCryptodomex](https://github.com/Legrandin/pycryptodome) : `pip install pycryptodomex`
 
 • [PyQt5](https://www.riverbankcomputing.com/software/pyqt/download5) for the client
 
@@ -43,4 +43,4 @@ Plannned Features
 
 Test Server
 -----------
-A test server is availible at 73.223.92.4 running at port 7000
+A test server is availible at 73.223.92.4 running at port 7000, with password `Test`.

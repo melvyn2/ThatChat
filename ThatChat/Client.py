@@ -214,6 +214,7 @@ def main():
 		username_ui.buttonBox.rejected.connect(sys.exit)
 		username_dialog.setFixedSize(username_dialog.size())
 		username_ui.label.setText('Password:')
+		username_ui.lineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
 		username_dialog.setWindowTitle('ThatChat Client - Password')
 
 		pass_salt, integ = encryption.decrypt(buf[5:-5])

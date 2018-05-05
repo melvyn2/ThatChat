@@ -16,6 +16,7 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
+import pkgutil
 import shutil
 import sys
 import fnmatch
@@ -148,29 +149,42 @@ elif action == 'clean':
 
 elif action == 'deps':
 	missing = []
-	deps = ['pycryptodomex', 'nclib', 'pyinstaller', 'twisted', 'pyyaml', 'pydh',
-				'urllib3', 'cryptography', 'idna', 'certifi', 'pyopenssl', 'service-identity']
-	try:
-		import pip
-	except ImportError:
-		print('Pip is missing.')
-		sys.exit(1)
-	installed_packages = {i.key: i.version for i in pip.get_installed_distributions()}
-	for i in deps:
-		if i not in installed_packages.keys():
+	deps = {'pycryptodomex': 'Cryptodome', 'nclib': 'nclib', 'PyInstaller': 'PyInstaller', 'twisted': 'twisted',
+				'pyyaml': 'yaml', 'pyDH': 'pyDH', 'urllib3': 'urllib3', 'cryptography': 'cryptography', 'idna': 'idna',
+				'certifi': 'certifi', 'pyopenssl': 'OpenSSL', 'service-identity': 'service_identity'}
+	installed_packages = [x[1] for x in list(pkgutil.iter_modules())]
+	for i in deps.keys():
+		if deps[i] not in installed_packages:
 			missing.append(i)
-		if i == 'setuptools' and installed_packages[i] < '39':
-			missing.append(i)
-		elif i == 'pyinstaller' and i not in missing:
-			if installed_packages[i][:8] != '3.4.dev0':
+		if i == 'setuptools':
+			import setuptools
+			if setuptools.__version__ < '39':
+				missing.append(i)
+		elif i == 'PyInstaller' and i not in missing:
+			import PyInstaller
+			if PyInstaller.__version__[:8] != '3.4.dev0':
 				missing.append(i)
 	if len(missing) > 0:
 		print('You are missing or need to upgrade/patch the following: ' + ', '.join(missing))
 		if '-y' in sys.argv or raw_input('Install them or it? (y/n) ') == 'y':
-			import pip
-			to_install = ['https://github.com/bjones1/pyinstaller/archive/pyqt5_fix_cleaned.zip' if x == 'pyinstaller'
+			to_install = ['https://github.com/bjones1/pyinstaller/archive/pyqt5_fix_cleaned.zip' if x == 'PyInstaller'
 				else ('' if x == 'PyQt5' else x) for x in missing]
-			pip.main(['install', '--upgrade'] + to_install)
+			try:
+				import pip
+				# noinspection PyUnresolvedReferences
+				pip.main(['install', '--upgrade'] + to_install)
+			except AttributeError:
+				try:
+					# noinspection PyProtectedMember
+					import pip._internal
+					# noinspection PyProtectedMember
+					pip._internal.main(['install', '--upgrade'] + to_install)
+				except ImportError:
+					print('Pip is missing.')
+					sys.exit(1)
+			except ImportError:
+				print('Pip is missing.')
+				sys.exit(1)
 			try:
 				import PyQt5
 			except ImportError:

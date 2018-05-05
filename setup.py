@@ -19,11 +19,6 @@ import os
 from setuptools import setup
 from setuptools import find_packages
 
-
-def read(fname):
-	return open(os.path.join(os.path.dirname(__file__), fname)).read()
-
-
 setup(
 	name='ThatChat',
 	version='0.1.3',
@@ -32,7 +27,7 @@ setup(
 	license='GPLv3',
 	author='melvyn2',
 	author_email='melvyn2@brcok.tk',
-	long_description=read('README.md'),
+	long_description=open(os.path.join(os.path.dirname(__file__), 'README.md')).read(),
 	description='Encrypted chat, in python.',
 	install_requires=['nclib', 'pyDH', 'PyYAML', 'certifi', 'urllib3', 'twisted', 'pycryptodomex']
 )

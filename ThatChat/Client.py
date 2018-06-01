@@ -92,10 +92,8 @@ class RecvThread(QtCore.QThread):
 			if data[:5] == '/MESG' and data[-5:] == 'MESG/':
 				try:
 					plain, integ = self.aescipher.decrypt(data[5:-5])
-					self.toappend.emit((str(time.localtime(time.time())[1]) + '/' + str(time.localtime(time.time())[2]) + '/' +
-										str(time.localtime(time.time())[0]) + ' ' + str(time.localtime(time.time())[3]) + ':' +
-										str(time.localtime(time.time())[4]) + ':' + str(time.localtime(time.time())[5]) + ' ') +
-										('' if integ else 'Corrupted/tampered') + plain.decode('utf-8'))
+					self.toappend.emit((str(time.localtime(time.time())[3]) + ':' + str(time.localtime(time.time())[4]) + ':' +
+										str(time.localtime(time.time())[5]) + ' ') + ('' if integ else 'Corrupted/tampered') + plain.decode('utf-8'))
 				except Exception as e:
 					print(e)
 

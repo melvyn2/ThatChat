@@ -160,10 +160,15 @@ elif action == 'deps':
 			import setuptools
 			if setuptools.__version__ < '39':
 				missing.append(i)
+		elif i == 'PyInstaller' and i not in missing:
+			import PyInstaller
+			if PyInstaller.__version__[:8] != '3.4.dev0':
+				missing.append(i)
 	if len(missing) > 0:
 		print('You are missing or need to upgrade/patch the following: ' + ', '.join(missing))
 		if '-y' in sys.argv or raw_input('Install them or it? (y/n) ') == 'y':
-			to_install = ['' if x == 'PyQt5' else x for x in missing]
+			to_install = ['https://github.com/pyinstaller/pyinstaller/archive/develop.zip' if x == 'PyInstaller'
+				else ('' if x == 'PyQt5' else x) for x in missing]
 			try:
 				import pip
 				# noinspection PyUnresolvedReferences

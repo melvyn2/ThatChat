@@ -17,7 +17,7 @@ Requirements
 
 • [pyDH](https://github.com/amiralis/pyDH)
 
-• [PyInstaller](https://gitub.com/pyinstaller/pyinstaller)
+• [PyInstaller](https://gitub.com/pyinstaller/pyinstaller): requires develop branch (`pip install https://github.com/pyinstaller/pyinstaller/archive/develop.zip`)
 
 • [Twisted](http://twistedmatrix.com/) for the server
 

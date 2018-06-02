@@ -16,6 +16,8 @@ artifacts:
   - path: 'bin\win32\*'
 
 install:
+  - pip install urllib3[secure] pyyaml pydh twisted pycryptodomex nclib https://github.com/pyinstaller/pyinstaller/archive/develop.zip
+  - pip install --upgrade setuptools
   - .\make.py deps -y
 
 build: off

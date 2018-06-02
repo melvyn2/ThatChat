@@ -69,6 +69,7 @@ if action == 'build':
 		print('Usage: {0} build <program>\nWhere progam is \'client\', \'server\', or \'all\'.'.format(sys.argv[0]))
 	except ImportError:
 		print('PyInstaller is missing.')
+		sys.exit(1)
 
 elif action == 'install':
 	try:

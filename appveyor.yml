@@ -16,7 +16,7 @@ artifacts:
   - path: 'bin\win32\*'
 
 install:
-  - ./make.py deps -y
+  - .\make.py deps -y
 
 build: off
 

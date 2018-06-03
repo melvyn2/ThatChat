@@ -21,7 +21,7 @@ from setuptools import find_packages
 
 setup(
 	name='ThatChat',
-	version='0.1.3',
+	version='1.0',
 	packages=find_packages(),
 	url='https://github.com/melvyn2/ThatChat',
 	license='GPLv3',

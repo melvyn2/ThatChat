@@ -137,7 +137,7 @@ elif action == 'run':
 		elif sys.argv[2].lower() == 'server':
 			from ThatChat.Server import main
 			try:
-				main(sys.argv[3])
+				main(sys.argv[3:])
 			except IndexError:
 				main()
 		else:

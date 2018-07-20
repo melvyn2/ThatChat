@@ -99,7 +99,7 @@ elif action == 'install':
 				else:
 					print('Aborted.')
 					sys.exit()
-			shutil.copytree(os.path.join('dist', 'ThatChat Client.app'), installdir)
+			shutil.copytree(os.path.join('bin', sys.platform, 'ThatChat Client.app'), installdir)
 			print('The ThatChat Client application bundle has been installed in the directory {0}'
 				' under the name \'ThatChat Client.app\'.'.format(installdir))
 		elif 'linux' in sys.platform:
@@ -114,7 +114,7 @@ elif action == 'install':
 					(os.sep, 'usr', 'local', 'bin')))
 			else:
 				installdir = os.path.join(os.sep, 'usr', 'local', 'bin')
-			shutil.copy(os.path.join('dist', 'ThatChat'), os.path.join(os.sep, 'usr', 'local', 'bin'))
+			shutil.copy(os.path.join('bin', sys.platform, 'ThatChat'), os.path.join(os.sep, 'usr', 'local', 'bin'))
 			print('The ThatChat Client has been installed in the directory {0} under the name \'ThatChat\'.'.format(installdir))
 			if sys.argv[3] == '--user':
 				print('Make sure that \'~/bin\' is in your PATH.')

@@ -198,5 +198,5 @@ elif action == 'deps':
 	print('You have all dependencies installed!')
 
 else:
-	print('Invalid option\nPossible options: build, install [--user], install --installdir <installdir>,'
+	print('Invalid option\nPossible options: build, install, install --user, install --installdir <installdir>,'
 			' run <program>, clean, deps [-y]')

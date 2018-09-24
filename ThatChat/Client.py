@@ -113,7 +113,7 @@ def main():
 	server_dialog = QtWidgets.QDialog()
 	server_ui = ServerDialog.Ui_Dialog()
 	server_ui.setupUi(server_dialog)
-	server_ui.lineEdit.setPlaceholderText('127.0.0.1' if '--dbg' in sys.argv else '73.223.92.4')
+	server_ui.lineEdit.setPlaceholderText('127.0.0.1' if '--dbg' in sys.argv else '0.0.0.0')
 	server_ui.buttonBox.rejected.connect(sys.exit)
 	server_dialog.setFixedSize(server_dialog.size())
 	while True:
